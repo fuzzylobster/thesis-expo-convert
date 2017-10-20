@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
   barItem: {
     flex: 1,
-    padding: 18,
+    padding: 10,
     alignItems: "center"
   },
   barTop: {

@@ -32,8 +32,11 @@ const initialState = {
   adventure: {
     markerLocations: [
       {
-        name: 'Operation Spark',
-        location: { lng: -90.070206, lat: 29.946344 }
+        name: '729 Louque Pl',
+        location: {
+          lat: 29.9891516,
+          lng: -90.10870279999999,
+        }
       },
       {
         name: 'Somewhere Else',

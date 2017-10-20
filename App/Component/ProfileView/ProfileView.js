@@ -74,7 +74,7 @@ export default class ProfileView extends Component {
 
             
         </Row>
-        <Row size={10}>
+        <Row size={12}>
           <View>
             <ProfilePhotos
               modalChange={this.setModalVisible.bind(this)}
@@ -83,7 +83,7 @@ export default class ProfileView extends Component {
             />
           </View>
         </Row>
-        <Row size={50}>
+        <Row size={48}>
           <ProfilePastAdv
             user={this.props.user}
             adventures={this.props.adventures}

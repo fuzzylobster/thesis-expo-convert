@@ -40,19 +40,21 @@ export default class ARScreen extends React.Component {
     // this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
     const panGrant = (_, gestureState) => {
       // this.material.color.setHex(0x00ff00);
+      this.props.addBadge(this.props.currentStop.name);
+        this.props.updateStop(this.props.currentRoute, this.props.currentStopIndex + 1);
+        
     };
     const panRelease = (_, gestureState) => {
       // this.material.color.setHex(0xff0000);
-      this.props.addBadge(this.props.currentStop.name);
-      if (this.props.currentStopIndex === this.props.currentRoute.length - 1){
+      if (this.props.currentStopIndex === this.props.currentRoute.length){
         alert(`Congratulations! You've finished the route and earned ${this.props.currentRoute.length} badges along the way.`)
         this.props.endRoute();
         this.props.navigation.navigate("HomeScreenContainer");
       } else {
-        // ${this.props.currentRoute.length - (this.props.currentStopIndex + 1) } more left for this adventure!
-      // alert(`You've added the ${this.props.currentStop.name} badge!`)
-        this.props.updateStop(this.props.currentRoute, this.props.currentStopIndex + 1);
         this.props.navigation.state.params.refresh();
+      alert(`You've added the ${this.props.currentRoute[this.props.currentStopIndex - 1].name} badge!
+        ${this.props.currentRoute.length - (this.props.currentStopIndex) } more left for this adventure!
+      `)
         this.props.navigation.goBack();
       }
     };

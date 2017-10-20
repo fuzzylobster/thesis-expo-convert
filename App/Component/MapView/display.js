@@ -70,7 +70,7 @@ export default class display extends Component {
         this.props.setGps(lastRegion);
 
         this.potentialGeofence = (this.markerLocation.lat + this.markerLocation.lng) - (lat + long)
-        if (this.potentialGeofence <= 0.0005 && this.potentialGeofence >= -0.0005) {
+        if (this.potentialGeofence <= 0.015 && this.potentialGeofence >= -0.015) {
           this.isInRadius = "Yep it's in the radius";
         }
       });
@@ -145,6 +145,7 @@ export default class display extends Component {
               title={`${this.props.waypoint.name} AR Event`}
               style={{ alignSelf: "center" }}
               onPress={() => {
+                  if (this.isInRadius === "Yep it's in the radius") { 
                   let badgeName = this.props.waypoint.name
                   this.props.navigation.navigate('ARContainer', {
                     refresh: () => {
@@ -153,13 +154,11 @@ export default class display extends Component {
                         `"${this.props.loc.latitude}, ${this.props.loc.longitude}"`,
                         `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location.lng}"`);
                         this.render();
-                       alert(`Congratulations! You found the ${badgeName} badge!`) 
                     }
                   })
-                 {/* if (this.isInRadius === "Yep it's in the radius") { 
                 } else {
                   this.isInRadius = "Keep looking!"
-                } */}
+                } 
               }
               }
             /> 

@@ -12,7 +12,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    padding: 10,
     backgroundColor: "rgba(0,0,0, 0.5)"
   },
   profilePicWrap: {
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     borderWidth: 4
   },
   name: {
-    marginTop: 20,
+    marginTop: 5,
     fontSize: 16,
     color: "#fff",
     fontWeight: "bold"
