@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
-    height: 140
+    height: 125
   },
   item: {
     height: 120,
@@ -11,7 +11,10 @@ export default StyleSheet.create({
     margin: 2
   },
   photoBox: {
-    backgroundColor: "#000000"
+    backgroundColor: "#000000",
+        justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   modal: {
     flex: 1,

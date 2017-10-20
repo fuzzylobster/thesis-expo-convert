@@ -58,16 +58,23 @@ export default class ProfileView extends Component {
             </Text>
           </View>
         </Modal>
-        <Row size={43}>
+        <Row size={30}>
           <View style={styles.container}>
             <ProfileHeader
               user={this.props.user}
               background={this.props.background}
             />
-            <ProfileBadges adventures={this.props.adventures} collectedBadges={this.props.badges}/>
           </View>
         </Row>
-        <Row size={15}>
+        <Row  size={10}>
+            <View style={styles.container}>
+
+            <ProfileBadges  adventures={this.props.adventures} collectedBadges={this.props.badges}/>
+            </View>
+
+            
+        </Row>
+        <Row size={10}>
           <View>
             <ProfilePhotos
               modalChange={this.setModalVisible.bind(this)}
@@ -76,7 +83,7 @@ export default class ProfileView extends Component {
             />
           </View>
         </Row>
-        <Row size={42}>
+        <Row size={50}>
           <ProfilePastAdv
             user={this.props.user}
             adventures={this.props.adventures}

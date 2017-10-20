@@ -33,15 +33,15 @@ const initialState = {
     markerLocations: [
       {
         name: 'Operation Spark',
-        location: { longitude: -90.070206, latitude: 29.946344 }
+        location: { lng: -90.070206, lat: 29.946344 }
       },
       {
         name: 'Somewhere Else',
-        location: { longitude: -91.070206, latitude: 28.946344 }
+        location: { lng: -90.070598, lat: 29.946033 }
       },
       {
         name: 'Last Place',
-        location: { longitude: -90.070206, latitude: 30.946344 }
+        location: { lng: -90.070043, lat: 29.94523 }
       },
     ]
   },
@@ -67,8 +67,10 @@ const initialState = {
   ],
   CurrentStopIndex: 0,
   CurrentStop: {
-    name: 'Operation Spark',
-    location: { longitude: -90.070206, latitude: 29.946344 }
+    name: '729 Louque Pl',
+    location: {
+      lat: 29.9891516,
+      lng: -90.10870279999999, }
   },
   badges: [
     {
@@ -121,6 +123,29 @@ const initialState = {
     {
       image: "https://media.timeout.com/images/100729813/image.jpg"
     }
+  ],
+  adventureType: [
+    {
+      city: "New Orleans, La",
+      cover:
+      "http://cdn1.theodysseyonline.com/files/2015/11/21/635837430566856627-1324495185_tndkklvnxeoprzcusexl.jpg",
+      name: "Plot Your Own Path",
+      type: "Choose Your Points of interest and Events."
+    },
+    {
+      city: "New Orleans, La",
+      cover:
+      "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
+      name: "Follow my footsteps",
+      type: "Follow a Path Created by a fellow user"
+    },
+    {
+      city: "New Orleans, La",
+      cover:
+      "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
+      name: "LeI think Ill start here.",
+      type: "Choose your starting point and let us handle the rest."
+    }
   ]
 };
 
@@ -138,12 +163,12 @@ export default function peopleReducer(state = initialState, action) {
       return Object.assign({}, state, {
         adventure: action.adv,
         CurrentStopIndex: 0,
-        // CurrentStop: action.adv.markerLocations[0]
+        CurrentStop: action.adv.markerLocations[0]
       });
     case "SET_CURRENTSTOP":
       return Object.assign({}, state, {
         CurrentStop: action.stop,
-        CurrentStopIndex: state.CurrentStopIndex + 1,
+        CurrentStopIndex: state.CurrentStopIndex + 1
       });
     case "Add_Photos":
       return Object.assign({}, state, {

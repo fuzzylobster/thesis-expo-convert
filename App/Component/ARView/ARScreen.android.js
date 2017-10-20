@@ -8,9 +8,9 @@ import {
   Button
 } from 'react-native';
 
-import Camera from 'react-native-camera';
+import {Camera} from 'expo';
 
-export default class ARScreenAndroid extends Component {
+export default class ARScreen extends Component {
 
   render() {
     let landmarkText = '';
@@ -21,15 +21,15 @@ export default class ARScreenAndroid extends Component {
           this.camera = cam;
         }}
         style={styles.preview}
-        type={Camera.constants.Type.back}
-        aspect={Camera.constants.Aspect.fill}>
+        type={Camera.Constants.Type.back}
+        >
         <Text style={styles.capture}>{this.props.currentStop.name}</Text>
         <Button
           title="Collect Badge"
           style={{ alignSelf: "center" }}
           onPress={() => {
             this.props.addBadge(this.props.currentStop.name);
-            this.props.navigation.navigate('HomeScreenContainer');
+            this.props.navigation.goBack();
           }
           }
         />

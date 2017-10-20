@@ -8,8 +8,9 @@ import {
   Item,
   Input,
   Label,
-
+  
 } from "native-base";
+import {Grid, Row, Col} from "react-native-easy-grid"
 
 import FooterNav from "../Footer";
 import MapViewer from "./MapViewer";
@@ -17,6 +18,13 @@ import PlaceSearch from "./PlaceSearch";
 import styles from "./../Styles/HomeScreenStyle";
 
 export default class RouteViewer extends Component {
+    state = {
+      tempAdventure: {
+        markerLocations: [
+
+        ]
+      }
+    }
   render() {
     const { navigate } = this.props.navigation;
     const change = {
@@ -30,8 +38,29 @@ export default class RouteViewer extends Component {
       loc: this.props.loc,
       gps: this.props.gps
     };
+
     return (
-      <View style={styles.container}>
+      <Grid >
+        <Row size={30}>
+
+        <PlaceSearch
+          setMarker={(newMarker) => {
+            this.setState({tempAdventure: {markerLocations: this.state.tempAdventure.markerLocations.concat(newMarker)}});
+          }}
+          markers={this.props.markers}
+          setAdventure={() => {
+            this.props.set_Adventure(this.state.tempAdventure)
+          }}
+          tempAdventure={this.state.tempAdventure}
+          setWaypoint={() => {
+            this.props.set_waypoint(this.state.tempAdventure.markerLocations[0]);
+          }}
+          navigation={this.props.navigation}
+
+        />
+        </Row>
+        <Row size={70}>
+
         <MapViewer
           setLocation={this.props.set_location}
           setGps={this.props.set_gps_marker}
@@ -39,9 +68,11 @@ export default class RouteViewer extends Component {
           loc={this.props.loc}
           navigation={this.props.navigation}
           waypoint={this.props.waypoint}
+          markers={this.state.tempAdventure.markerLocations}
         />
+        </Row>
         
-      </View>
+      </Grid>
     );
   }
 }

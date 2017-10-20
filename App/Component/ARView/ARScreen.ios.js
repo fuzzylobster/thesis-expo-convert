@@ -6,7 +6,7 @@ import {
   PanResponder,
   TouchableHighlight
  } from 'react-native';
-import Expo, { Camera, Permissions, Accelerometer, Gyroscope, BlurView, Modal } from 'expo';
+import Expo, { Camera, Permissions, BlurView, Modal } from 'expo';
 import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
 import Api from "../../Services/Api";
@@ -18,18 +18,26 @@ export default class ARScreen extends React.Component {
     hasCameraPermission: true,
     clicked: false
   }
+  firstView() {
+    if (true) {
 
+    return (
+    <Expo.GLView
+      {...this.panResponder.panHandlers}
+      ref={(ref) => this._glView = ref}
+      style={{
+        flex: 1, backgroundColor: 'transparent',
+        flexDirection: 'row',
+      }}
+      onContextCreate={this._onGLContextCreate}
+    />
+    )
+    }
+  }
   componentWillMount() {
     // const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: true});
-    
-
-    // this.material = new THREE.MeshBasicMaterial({ 
-    //   map: await ExpoTHREE.createTextureAsync({
-    //     asset: Expo.Asset.fromModule(require('../../assets/icons/morpheus.jpg')),
-    //   })
-    // });
-    
+    this.setState({ hasCameraPermission: 'granted'});
+    // this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
     const panGrant = (_, gestureState) => {
       // this.material.color.setHex(0x00ff00);
     };
@@ -37,11 +45,15 @@ export default class ARScreen extends React.Component {
       // this.material.color.setHex(0xff0000);
       this.props.addBadge(this.props.currentStop.name);
       if (this.props.currentStopIndex === this.props.currentRoute.length - 1){
+        alert(`Congratulations! You've finished the route and earned ${this.props.currentRoute.length} badges along the way.`)
         this.props.endRoute();
         this.props.navigation.navigate("HomeScreenContainer");
       } else {
+        // ${this.props.currentRoute.length - (this.props.currentStopIndex + 1) } more left for this adventure!
+      // alert(`You've added the ${this.props.currentStop.name} badge!`)
         this.props.updateStop(this.props.currentRoute, this.props.currentStopIndex + 1);
-        this.props.navigation.navigate("RoutesContainer");
+        this.props.navigation.state.params.refresh();
+        this.props.navigation.goBack();
       }
     };
     this.panResponder = PanResponder.create({
@@ -53,55 +65,17 @@ export default class ARScreen extends React.Component {
     });
   }
 
-  // componentDidMount() {
-  //   this._toggle();
-
-  // }
-
-  // componentWillUnmount() {
-  //   this._unsubscribe();
-  // }
-
-  // _toggle = () => {
-  //   if (this._subscription) {
-  //     this._unsubscribe();
-  //   } else {
-  //     this._subscribe();
-
-  //   }
-  // }
-
-  // _slow = () => {
-  //   Accelerometer.setUpdateInterval(1000);
-  //   Gyroscope.setUpdateInterval(1000);
-
-  // }
-
-  // _fast = () => {
-  //   Accelerometer.setUpdateInterval(16);
-  //   Gyroscope.setUpdateInterval(16);
-
-  // }
-
-  // _subscribe = () => {
-  //   this._subscriptionA = Accelerometer.addListener((result) => {
-  //     this.setState({ AccelerometerData: result });
-  //   });
-  //   this._subscriptionB = Gyroscope.addListener((result) => {
-  //     this.setState({ GyroscopeData: result });
-  //   });
-  // }
-
-  // _unsubscribe = () => {
-  //   this._subscription && this._subscription.remove();
-  //   this._subscription = null;
-  // }
+  componentWillUnmount() {
+    this.setState({
+      hasCameraPermission: false
+    })
+    // this.panResponder = null;
+  }
 
   render() {
     const { hasCameraPermission } = this.state;
-
-    // let { x: Ax, y: Ay, z: Az } = this.state.AccelerometerData;
-    // let { x: Gx, y: Gy, z: Gz } = this.state.GyroscopeData;
+    
+    
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
@@ -109,22 +83,7 @@ export default class ARScreen extends React.Component {
     } else {
       return (
 
-        // <View style={styles.sensor}>
-        //   <Text>Accelerometer:</Text>
-        //   <Text>x: {round(x)} y: {round(y)} z: {round(z)}</Text>
-        // </View>
-
-        /* <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this._toggle} style={styles.button}>
-            <Text>Toggle</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this._slow} style={[styles.button, styles.middleButton]}>
-            <Text>Slow</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this._fast} style={styles.button}>
-            <Text>Fast</Text>
-          </TouchableOpacity>
-        </View> */
+        
         <View style={{ flex: 1 }}>
           
           <Camera style={{ flex: 1 }} type={Camera.Constants.Type.back}>
@@ -137,15 +96,7 @@ export default class ARScreen extends React.Component {
               }}
             >
             
-            <Expo.GLView
-                {...this.panResponder.panHandlers}
-                ref={(ref) => this._glView = ref}
-                style={{
-                  flex: 1, backgroundColor: 'transparent',
-                  flexDirection: 'row',
-                }}
-                onContextCreate={this._onGLContextCreate} 
-              />
+            {this.firstView()}
             
               
             
@@ -180,8 +131,9 @@ export default class ARScreen extends React.Component {
         asset: Expo.Asset.fromModule(require('../../../assets/icons/vr.jpg')),
       })
     });
+    
     const cube = new THREE.Mesh(geometry, material);
-    cube.position.z = -0.4;
+    cube.position.z = Math.random() * -3;
     scene.add(cube);
     
     // CUSTOM SHAPE, in progress.
@@ -207,14 +159,7 @@ export default class ARScreen extends React.Component {
       requestAnimationFrame(animate);
       cube.rotation.x += 0.02;
       cube.rotation.y += 0.02;
-      // cube.position.x = round(this.state.AccelerometerData.x) - firstPosition.x;
-      // cube.position.y = round(this.state.AccelerometerData.y) - firstPosition.y;
-      // cube.position.z = firstPosition.z + round(this.state.AccelerometerData.z) ;
-      // cube.position.set(
-      //   -this.state.AccelerometerData.x, 
-      //   -this.state.AccelerometerData.y,
-      //   -this.state.AccelerometerData.z - 5 
-      // )
+      
       renderer.render(scene, camera);
       gl.endFrameEXP();
     }

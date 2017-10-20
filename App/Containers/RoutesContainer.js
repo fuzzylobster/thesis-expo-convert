@@ -3,7 +3,8 @@ import {
   Current_adventure,
   Current_location,
   Current_Stop,
-  Gps_Marker
+  Gps_Marker,
+  Marker_locations,
 } from "../redux/actions";
 import RouteViewer from "../Component/MapView/RouteViewer";
 
@@ -12,7 +13,8 @@ const mapStateToProps = state => {
     route: state.people.adventure,
     loc: state.people.location,
     waypoint: state.people.CurrentStop,
-    gps: state.people.gps
+    gps: state.people.gps,
+    markers: state.people.adventure.markerLocations,
   };
 };
 
@@ -32,6 +34,10 @@ const mapDispatchToProps = dispatch => {
 
     set_gps_marker: gps => {
       dispatch(Gps_Marker(gps));
+    },
+
+    add_marker: (marker) => {
+      dispatch(Marker_locations(marker))
     }
   };
 };
