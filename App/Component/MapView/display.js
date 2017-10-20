@@ -10,11 +10,11 @@ import {
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SocialIcon } from "react-native-elements";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import MapViewer from "./MapViewer";
-import MapView from "react-native-maps";
+
+
 import styles from "./../Styles/MapViewStyle";
 import Polyline from "@mapbox/polyline";
-import Expo, { Constants, Location, Permissions } from 'expo';
+import Expo, { MapView, Constants, Location, Permissions } from 'expo';
 import { NavigationActions } from 'react-navigation'
 
 const { width, height } = Dimensions.get("window");
@@ -114,14 +114,14 @@ export default class display extends Component {
   }
   render() {
     const initialRegion = {
-      latitude: 29,
-      longitude: -90,
+      latitude: this.props.loc.latitude,
+      longitude: this.props.loc.longitude,
       latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421
+      longitudeDelta: LONGITUDE_DELTA
     };
     return (
       <View style={styles.container}>
-        <MapView style={styles.map} region={this.initialRegion}>
+        <MapView style={styles.map} initialRegion={initialRegion}>
 
             <MapView.Marker
               coordinate={{

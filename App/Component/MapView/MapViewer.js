@@ -9,14 +9,13 @@ import {
 } from "react-native";
 
 import styles from "../Styles/MapViewStyle";
-import {MapView} from "expo";
-import Expo, {Constants, Location, Permissions} from 'expo'
+import Expo, {MapView, Constants, Location, Permissions} from 'expo'
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_HEIGHT = height;
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.003;
+const LATITUDE_DELTA = 0.04;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class MapViewer extends Component {
@@ -49,7 +48,7 @@ export default class MapViewer extends Component {
       });
     } else {
       Location.setApiKey('AIzaSyCKcl-dg86GzlkBh5HDX-d6MZzThGbHKpA')
-      this.watchLocation2();
+      this.watchLocation1();
     }
 
   //  let location = await Location.getCurrentPositionAsync({});
@@ -57,7 +56,7 @@ export default class MapViewer extends Component {
   }
 
   watchLocation1() {
-    watchId = navigator.geolocation.getCurrentPosition(
+    watchId = Location.getCurrentPositionAsync({}).then(
       position => {
         var lat = parseFloat(position.coords.latitude);
         var long = parseFloat(position.coords.longitude);
@@ -110,7 +109,7 @@ export default class MapViewer extends Component {
     
     return (
       <View style={styles.container}>
-        <MapView style={styles.map} region={this.props.location}>
+        <MapView style={styles.map} initialRegion={this.props.loc}>
           {this.props.markers.map((marker, index) => (
             <MapView.Marker
               key={index}

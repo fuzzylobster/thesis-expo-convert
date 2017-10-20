@@ -43,7 +43,7 @@ export default class CardImage extends Component {
             <CardItem cardBody>
               <Image
                 source={{ uri: this.props.adventure.cover }}
-                style={{ height: 200, width: null, flex: 1 }}
+                style={{ height: 150, width: null, flex: 1 }}
               />
             </CardItem>
             {this.renderIf(
