@@ -34,6 +34,7 @@ export default class ARScreen extends React.Component {
     )
     }
   }
+  routeIsComplete = false;
   componentWillMount() {
     // const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: 'granted'});
@@ -41,14 +42,16 @@ export default class ARScreen extends React.Component {
     const panGrant = (_, gestureState) => {
       // this.material.color.setHex(0x00ff00);
       this.props.addBadge(this.props.currentStop.name);
-        if (this.props.currentStopIndex < this.props.currentRoute.length - 1) {
+        if (this.props.currentStopIndex === this.props.currentRoute.length - 1) {
+          this.routeIsComplete = true;
+        } else {
 
         this.props.updateStop(this.props.currentRoute, this.props.currentStopIndex + 1);
-        }
+        } 
     };
     const panRelease = (_, gestureState) => {
       // this.material.color.setHex(0xff0000);
-      if (this.props.currentStopIndex === this.props.currentRoute.length - 1){
+      if (this.routeIsComplete){
         alert(`Congratulations! You've finished the route and earned ${this.props.currentRoute.length} badges along the way.`)
         this.props.endRoute();
         this.props.navigation.navigate("HomeScreenContainer");
@@ -138,14 +141,14 @@ export default class ARScreen extends React.Component {
     scene.background = ExpoTHREE.createARBackgroundTexture(arSession, renderer);
     //simple box
     const geometry = new THREE.BoxBufferGeometry(0.07, 0.07, 0.07);
-    // const material = new THREE.MeshBasicMaterial({
-    //   map: await ExpoTHREE.createTextureAsync({
-    //     asset: Expo.Asset.fromModule(require('../../../assets/icons/vr.jpg')),
-    //   })
-    // });
     const material = new THREE.MeshBasicMaterial({
-      color: 0xff0000
-    })
+      map: await ExpoTHREE.createTextureAsync({
+        asset: Expo.Asset.fromModule(require('../../../assets/icons/vr.jpg')),
+      })
+    });
+    // const material = new THREE.MeshBasicMaterial({
+    //   color: 0xff0000
+    // })
     
     const cube = new THREE.Mesh(geometry, material);
     cube.position.z = Math.random() * -3;

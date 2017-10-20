@@ -15,7 +15,7 @@ const { width, height } = Dimensions.get("window");
 const SCREEN_HEIGHT = height;
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.04;
+const LATITUDE_DELTA = 0.1;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class MapViewer extends Component {
@@ -109,7 +109,7 @@ export default class MapViewer extends Component {
     
     return (
       <View style={styles.container}>
-        <MapView style={styles.map} initialRegion={this.props.loc}>
+        <MapView style={styles.map} region={this.props.loc}>
           {this.props.markers.map((marker, index) => (
             <MapView.Marker
               key={index}
