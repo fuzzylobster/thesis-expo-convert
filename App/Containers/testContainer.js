@@ -14,13 +14,13 @@ const mapStateToProps = state => {
     loc: state.people.location,
     waypoint: state.people.CurrentStop,
     gps: state.people.gps,
-    markers: state.people.markerLocations
+    markers: state.people.adventure.markerLocations
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    set_location: loc => {
+    setLocation: loc => {
       dispatch(Current_location(loc));
     },
 
@@ -32,7 +32,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(Current_adventure(loc));
     },
 
-    set_gps_marker: gps => {
+    setGps: gps => {
       dispatch(Gps_Marker(gps));
     },
     add_marker: gps => {

@@ -20,13 +20,23 @@ export default class ProfilePhotos extends Component {
 
   _camRoll() {
     let combinedPhotos = [];
-    this.props.photos.forEach(function(photo) {
-      combinedPhotos.push(photo);
+    this.props.photos.forEach(function(photo, index) {
+      combinedPhotos.push(
+        {
+          image: photo.image,
+          key: index
+        }
+      );
     });
     if (combinedPhotos.length < 10) {
       let count = 0;
       while (combinedPhotos.length < 10) {
-        combinedPhotos.push(this.props.stockPhotos[count]);
+        combinedPhotos.push(
+          {
+            image: this.props.stockPhotos[count].image,
+            key: combinedPhotos.length
+          }
+        );
         count++;
       }
     }
@@ -49,11 +59,11 @@ export default class ProfilePhotos extends Component {
   render() {
     return (
       <FlatList
-        style={styles.photoBox}
+        contentContainerStyle={styles.photoBox}
         horizontal
         renderItem={({ item }) => this._renderItem(item)}
         data={this._camRoll()}
-        keyExtractor={({ item }) => this._keyExtractor}
+        keyExtractor={this._keyExtractor}
       />
     );
   }

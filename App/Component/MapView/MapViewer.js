@@ -4,11 +4,12 @@ import {
   Text,
   View,
   Dimensions,
+  PermissionsAndroid,
   Button
 } from "react-native";
 
 import styles from "../Styles/MapViewStyle";
-import MapView from "react-native-maps";
+import {MapView} from "expo";
 import Expo, {Constants, Location, Permissions} from 'expo'
 
 const { width, height } = Dimensions.get("window");
@@ -20,21 +21,39 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class MapViewer extends Component {
   watchID = null;
-
+  isInRadius = "Nope not in radius";
+  potentialGeofence;
+  markerLocation = this.props.waypoint.location;
   componentWillMount() {
-    if (Platform.OS === "android") {
-      PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      ).then(granted => {
-        if (granted) {
-          // this.watchLocation1();
-          this.watchLocation2();
-        }
+    // if (Platform.OS === "android") {
+    //   PermissionsAndroid.request(
+    //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    //   ).then(granted => {
+    //     if (granted) {
+    //       // this.watchLocation1();
+    //       this.watchLocation2();
+    //     }
+    //   });
+    // } else {
+      // this.watchLocation1();
+      // this.watchLocation2();
+      this.getLocationAsync();
+    // }
+  }
+
+  getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
       });
     } else {
-      // this.watchLocation1();
+      Location.setApiKey('AIzaSyCKcl-dg86GzlkBh5HDX-d6MZzThGbHKpA')
       this.watchLocation2();
     }
+
+  //  let location = await Location.getCurrentPositionAsync({});
+ //   this.setState({ location });
   }
 
   watchLocation1() {
@@ -76,30 +95,34 @@ export default class MapViewer extends Component {
       };
       this.props.setLocation(lastRegion);
       this.props.setGps(lastRegion);
+
+      this.potentialGeofence = (this.markerLocation.latitude + this.markerLocation.longitude) - (lat + long)
+      if (this.potentialGeofence <= 0.015 && this.potentialGeofence >= -0.015) {
+        this.isInRadius = "Yep it's in the radius";
+      }
     });
   }
   componentWillUnmount() {
     // navigator.geolocation.clearWatch(this.watchID);
-    this.watchID.remove()
+    this.watchID = null
   }
   render() {
+    
     return (
       <View style={styles.container}>
         <MapView style={styles.map} region={this.props.location}>
-          <MapView.Marker coordinate={this.props.waypoint.location} >
-            <MapView.Callout>
-            <Text>Hey There</Text>
-             <Button
-              title={this.props.waypoint.name}
-              style={{ alignSelf: "center" }}
-              onPress={() => {
-
-                this.props.navigation.navigate('ARContainer');
-              }
-              }
-            /> 
-            </MapView.Callout>
-          </MapView.Marker>
+          {this.props.markers.map((marker, index) => (
+            <MapView.Marker
+              key={index}
+              coordinate={{
+                latitude: marker.location.lat,
+                longitude: marker.location.lng
+              }}
+              title={marker.title}
+              description={marker.description}
+            />
+          ))}
+          
         </MapView>
       </View>
     );

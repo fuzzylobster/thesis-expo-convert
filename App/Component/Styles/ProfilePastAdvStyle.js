@@ -7,12 +7,12 @@ export const swiperWidth = windowWidth - gutter * 4;
 
 export default StyleSheet.create({
   wrapper: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#000000",
-    overflow: "visible"
-    //width: swiperWidth
+    // flex: 1,
+    // alignItems: "center",
+    // justifyContent: "center",
+    // backgroundColor: "#000000",
+    // overflow: "visible"
+    // //width: swiperWidth
   },
   swiper: {
     overflow: "visible"

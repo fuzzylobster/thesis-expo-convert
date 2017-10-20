@@ -29,20 +29,23 @@ const mapDispatchToProps = dispatch => {
       
     },
     endRoute: () => {
-      dispatch(Current_adventure({}))
+      dispatch(Current_adventure({
+        markerLocations: [
+          {
+            name: 'default',
+            location: {lat: 0, lng: 0}
+          }
+        ]
+      }))
     }
   };
 };
 
 let ARContainer;
-if (Platform.OS === 'android') {
-  ARContainer = connect(mapStateToProps, mapDispatchToProps)(
-    ARScreenAndroid
-  );
-} else {
+
   ARContainer = connect(mapStateToProps, mapDispatchToProps)(
     ARScreen
   );
-}
+
 
 export default ARContainer;

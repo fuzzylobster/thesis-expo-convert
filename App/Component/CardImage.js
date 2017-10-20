@@ -14,9 +14,17 @@ import {
   Body,
   Right
 } from "native-base";
+
 export default class CardImage extends Component {
   constructor(props) {
     super(props);
+  }
+  renderIf(condition, content) {
+    if (condition) {
+      return content;
+    } else {
+      return null;
+    }
   }
   render() {
     return (
@@ -38,23 +46,32 @@ export default class CardImage extends Component {
                 style={{ height: 200, width: null, flex: 1 }}
               />
             </CardItem>
-            <CardItem>
-              <Left>
-                <Button transparent>
-                  <Icon active name="thumbs-up" />
-                  <Text>{this.props.adventure.likes} Likes</Text>
-                </Button>
-              </Left>
-              <Body>
-                <Button transparent>
-                  <Icon active name="chatbubbles" />
-                  <Text>{this.props.adventure.comments} Comments</Text>
-                </Button>
-              </Body>
-              <Right>
-                <Text>11h ago</Text>
-              </Right>
-            </CardItem>
+            {this.renderIf(
+              this.props.adventure.likes,
+              <CardItem>
+                <Left>
+                  <Button transparent>
+                    <Icon active name="thumbs-up" />
+                    <Text>{this.props.adventure.likes} Likes</Text>
+                  </Button>
+                </Left>
+                <Body>
+                  <Button transparent>
+                    <Icon active name="chatbubbles" />
+                    <Text>{this.props.adventure.comments} Comments</Text>
+                  </Button>
+                </Body>
+                <Right>
+                  <Text>11h ago</Text>
+                </Right>
+              </CardItem>
+            )}
+            {this.renderIf(
+              !this.props.adventure.likes,
+              <CardItem>
+                <Text>{this.props.adventure.type}</Text>
+              </CardItem>
+            )}
           </Card>
         </Content>
       </Container>

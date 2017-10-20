@@ -18,7 +18,10 @@ export default class PlaceSearch extends Component {
           renderDescription={row => row.description} // custom description render
           onPress={(data, details = null) => {
             // 'details' is provided when fetchDetails = true
-            this.props.setMarker(details.geometry.location);
+            this.props.setMarker({
+              name: details.formatted_address,
+              location: details.geometry.location
+            });
             console.log(data, details);
           }}
           getDefaultValue={() => ""}
@@ -59,17 +62,24 @@ export default class PlaceSearch extends Component {
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
           renderLeftButton={() => (
             <Button
-              title="search"
-              onPress={data => {
-                this.test = data;
+              title="Default adventure"
+              onPress={() => {
+                this.props.navigation.navigate('testContainer');
               }}
             />
           )}
           renderRightButton={() => (
             <Button
-              title="View Marker"
+              title="Let's go!"
               onPress={() => {
-                this.props.navigation.navigate("testContainer");
+                if (!this.props.tempAdventure.markerLocations.length) {
+                  alert("You haven't made any stops yet!")
+                } else {
+
+                  this.props.setAdventure();
+                  {/* this.props.setWaypoint(); */}
+                  this.props.navigation.navigate("testContainer");
+                }
               }}
             />
           )}
