@@ -6,6 +6,7 @@ import {
   Gps_Marker,
   Marker_locations,
 } from "../redux/actions";
+import Api from '../Services/Api'
 import RouteViewer from "../Component/MapView/RouteViewer";
 
 const mapStateToProps = state => {
@@ -28,8 +29,17 @@ const mapDispatchToProps = dispatch => {
       dispatch(Current_Stop(loc));
     },
 
-    set_Adventure: loc => {
-      dispatch(Current_adventure(loc));
+    set_Adventure: (adventure, toBeSaved) => {
+      dispatch(Current_adventure(adventure));
+      if (toBeSaved) {
+        const api = Api.create();
+        api.saveRoute(adventure).then((success) => {
+          console.log(success)
+      }, (error) => {
+        console.log(error)
+      }
+        )
+    }
     },
 
     set_gps_marker: gps => {

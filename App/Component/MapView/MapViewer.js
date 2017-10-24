@@ -56,7 +56,7 @@ export default class MapViewer extends Component {
   }
 
   watchLocation1() {
-    watchId = Location.getCurrentPositionAsync({}).then(
+    watchId = Location.getCurrentPositionAsync({distanceInterval: 1}).then(
       position => {
         var lat = parseFloat(position.coords.latitude);
         var long = parseFloat(position.coords.longitude);
@@ -81,7 +81,7 @@ export default class MapViewer extends Component {
   }
 
   watchLocation2() {
-    this.watchID = Location.watchPositionAsync({enableHighAccuracy: true, distanceInterval: 0.0000000001},
+    this.watchID = Location.watchPositionAsync({enableHighAccuracy: true, distanceInterval: 1},
       position => {
       var lat = parseFloat(position.coords.latitude);
       var long = parseFloat(position.coords.longitude);

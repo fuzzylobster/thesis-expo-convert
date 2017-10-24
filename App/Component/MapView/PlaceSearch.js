@@ -65,6 +65,7 @@ export default class PlaceSearch extends Component {
               title="Default adventure"
               onPress={() => {
                 this.props.navigation.navigate('testContainer');
+                {/* this.props.setAdventure(); */}
               }}
             />
           )}
@@ -75,7 +76,7 @@ export default class PlaceSearch extends Component {
                 if (!this.props.tempAdventure.markerLocations.length) {
                   alert("You haven't made any stops yet!")
                 } else {
-
+                  
                   this.props.setAdventure();
                   {/* this.props.setWaypoint(); */}
                   this.props.navigation.navigate("testContainer");

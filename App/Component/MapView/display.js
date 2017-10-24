@@ -69,10 +69,18 @@ export default class display extends Component {
         this.props.setLocation(lastRegion);
         this.props.setGps(lastRegion);
 
-        this.potentialGeofence = (this.markerLocation.lat + this.markerLocation.lng) - (lat + long)
-        if (this.potentialGeofence <= 0.015 && this.potentialGeofence >= -0.015) {
+        // this.potentialGeofence = (this.markerLocation.lat + this.markerLocation.lng) - (lat + long)
+        // if (this.potentialGeofence <= 0.015 && this.potentialGeofence >= -0.015) {
+        //   this.isInRadius = "Yep it's in the radius";
+        // }
+        if (
+          (lat <= this.markerLocation.lat + 0.0015 || lat >= this.markerLocation.lat - 0.0015) && 
+          (long <= this.markerLocation.lng + 0.0015 || long >= this.markerLocation.lng - 0.0015)) {
           this.isInRadius = "Yep it's in the radius";
-        }
+          // this.potentialGeofence = `lat: ${lat} lng: ${long} marklat: ${this.markerLocation.lat} marklng: ${this.markerLocation.lng}`
+          }
+          
+        
       });
   }
 
@@ -141,6 +149,8 @@ export default class display extends Component {
             <MapView.Callout>
             <Text>{this.isInRadius}</Text>
             <Text>{this.potentialGeofence}</Text>
+            <View>
+
              <Button
               title={`${this.props.waypoint.name} AR Event`}
               style={{ alignSelf: "center" }}
@@ -162,6 +172,7 @@ export default class display extends Component {
               }
               }
             /> 
+            </View>
             </MapView.Callout>
           </MapView.Marker>
           <MapView.Polyline

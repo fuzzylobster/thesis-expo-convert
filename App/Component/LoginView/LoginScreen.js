@@ -199,6 +199,15 @@ export default class LoginScreen extends Component {
             }}
           />
         </TouchableOpacity>
+        <TouchableOpacity>
+          <Button
+            title="AR View"
+            style={{ backgroundColor: "red" }}
+            onPress={() => {
+              this.props.navigation.navigate('ARContainer')
+            }}
+          />
+        </TouchableOpacity>
       </View>
     );
   }

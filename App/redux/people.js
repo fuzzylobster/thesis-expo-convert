@@ -30,6 +30,7 @@ const initialState = {
     }
   ],
   adventure: {
+    name: "Jake",
     markerLocations: [
       {
         name: '729 Louque Pl',
@@ -68,6 +69,7 @@ const initialState = {
       badge: []
     }
   ],
+  AdvCounter: 0,
   CurrentStopIndex: 0,
   CurrentStop: {
     name: '729 Louque Pl',
@@ -76,10 +78,9 @@ const initialState = {
       lng: -90.10870279999999, }
   },
   badges: [
-    {
-      name: "Trail Maker",
-      location: null,
-    }
+    
+      "Trail Maker"
+    
   ],
   test: [
     "https://az616578.vo.msecnd.net/files/2016/09/11/6360922286821585541523176234_party%20school.jpg",
@@ -189,9 +190,9 @@ export default function peopleReducer(state = initialState, action) {
       })
     case "ADD_BADGE":
       return Object.assign({}, state, {
-        badges: state.badges.concat({
-          name: action.badge
-        })
+        badges: state.badges.concat(
+          action.badge
+        )
       });
     default:
       return state;

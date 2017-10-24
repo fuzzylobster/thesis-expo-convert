@@ -20,6 +20,7 @@ import styles from "./../Styles/HomeScreenStyle";
 export default class RouteViewer extends Component {
     state = {
       tempAdventure: {
+        name: "tempAdventure",
         markerLocations: [
 
         ]
@@ -45,11 +46,11 @@ export default class RouteViewer extends Component {
 
         <PlaceSearch
           setMarker={(newMarker) => {
-            this.setState({tempAdventure: {markerLocations: this.state.tempAdventure.markerLocations.concat(newMarker)}});
+            this.setState({tempAdventure: {name: "tempAdv", markerLocations: this.state.tempAdventure.markerLocations.concat(newMarker)}});
           }}
           markers={this.props.markers}
           setAdventure={() => {
-            this.props.set_Adventure(this.state.tempAdventure)
+            this.props.set_Adventure(this.state.tempAdventure, true)
           }}
           tempAdventure={this.state.tempAdventure}
           setWaypoint={() => {
