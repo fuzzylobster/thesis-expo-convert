@@ -1,15 +1,69 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Image } from "react-native";
+import { 
+  Platform, 
+  StyleSheet, 
+  Text,
+  View, 
+  Image,
+  AsyncStorage
+} from "react-native";
 import { Button } from "native-base";
 import FooterMenu from "../Footer";
 import ProfilePastAdv from "../ProfileView/ProfilePastAdv";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import styles from "./../Styles/HomeScreenStyle";
 
-export default class HomeScreen extends Component {
-  constructor(props) {
-    super(props);
+import jwtdecode from "jwt-decode";
+import Api from "../../Services/Api";
+
+var STORAGE_KEY = "jwtToken";
+
+const userLogout = async () => {
+  try {
+    await AsyncStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    console.log("AsyncStorage error: " + error.message);
   }
+};
+
+const getJWT = async () => {
+  try {
+    var token = await AsyncStorage.getItem(STORAGE_KEY);
+    return token;
+  } catch (error) {
+    console.log("AsyncStorage error:" + error.message);
+  }
+};
+
+export default class HomeScreen extends Component {
+
+  async _showToken() {
+    var TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
+    console.log(TOKEN);
+  }
+
+  logout() {
+    userLogout();
+    this.props.navigation.navigate("LoginContainer");
+  }
+
+  getData() {
+    getJWT().then(jwt => {
+      // Decode
+      const decoded = jwtdecode(jwt);
+      // HTTP request
+      const api = Api.create();
+      api.findUserData(decoded.userID).then(Response => {
+        this.props.set_Token(Response.data[0].id);
+        console.log(Response);
+      });
+
+      return decoded.userID;
+    });
+    this.props.navigation.navigate("Profile");
+  }
+
+
   render() {
     return (
       <Grid>
@@ -19,26 +73,42 @@ export default class HomeScreen extends Component {
               <Text>You are signed in as {this.props.user.name}</Text>
             </Row>
             <Row style={styles2.buttonsRow}>
-              <Button style={styles2.buttonStyle} onPress={() => this.props.navigation.navigate("Profile")} title="Profile">
-                <Text style={styles2.buttonText}>
-                  View Profile
-                  </Text>
+              <Button
+                style={styles2.buttonStyle}
+                onPress={() => {
+                  this.getData();
+                }}
+                title="Profile"
+              >
+                <Text style={styles2.buttonText}>View Profile</Text>
               </Button>
-              <Button style={styles2.buttonStyle}>
-                <Text style={styles2.buttonText}>
-                  Log Out
-                  </Text>
+              <Button
+                style={styles2.buttonStyle}
+                onPress={() => {
+                  this.logout();
+                }}
+              >
+                <Text style={styles2.buttonText}>Log Out</Text>
+              </Button>
+              <Button
+                style={styles2.buttonStyle}
+                onPress={this._showToken}
+                title="Experiment"
+              >
+                <Text style={styles2.buttonText}>Experiment</Text>
               </Button>
             </Row>
           </Col>
           <Col size={25} style={styles2.imageCol}>
             <View style={styles.profilePicWrap}>
-              <Image style={styles.profilePic} source={{ uri: this.props.user.picture.data.url }} />
+              <Image
+                style={styles.profilePic}
+                source={{ uri: this.props.user.picture.data.url }}
+              />
             </View>
           </Col>
         </Row>
       </Grid>
-
 
       // <Grid>
       //   <Row>
@@ -87,16 +157,16 @@ export default class HomeScreen extends Component {
 
 const styles2 = StyleSheet.create({
   signedIn: {
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center"
   },
 
   imageCol: {
-    alignItems: 'flex-end'
+    alignItems: "flex-end"
   },
 
   buttonsRow: {
-    justifyContent: 'center'
+    justifyContent: "center"
   },
 
   buttonStyle: {
@@ -108,7 +178,7 @@ const styles2 = StyleSheet.create({
   },
 
   buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold'
+    color: "#FFFFFF",
+    fontWeight: "bold"
   }
 });

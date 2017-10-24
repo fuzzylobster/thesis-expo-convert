@@ -12,7 +12,7 @@ import {
   Text
 } from "native-base";
 import { SocialIcon } from "react-native-elements";
-import {ImagePicker} from "expo";
+import {ImagePicker, AuthSession} from "expo";
 import {
   Platform,
   View,
@@ -24,13 +24,23 @@ import {
 } from "react-native";
 
 import styles from "./../Styles/LoginScreenStyle";
-import { google, facebook, twitter, tumblr } from "react-native-simple-auth";
+import { google, facebook} from "react-native-simple-auth";
 import Api from "../../Services/Api";
 const api = Api.create();
 
 var STORAGE_KEY = "jwtToken";
 
 export default class LoginScreen extends Component {
+  state = {
+    image1: null
+  };
+  renderIf(condition, content) {
+    if (condition) {
+      return content;
+    } else {
+      return null;
+    }
+  }
   newImage() {
     ImagePicker.launchImageLibraryAsync({  }, response => {
       const image = {
@@ -40,27 +50,16 @@ export default class LoginScreen extends Component {
       };
       const imgBody = new FormData();
       imgBody.append("image", image);
-      // const url = `http://your-api.com/image-upload`;
-      // fetch(url, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      //   body: imgBody
-      //   })
-      api.postUserPhoto({ body: imgBody });
-      // .then(res => res.json())
-      // .then(results => {
-      //   // Just me assigning the image url to be seen in the view
-      //   const source = { uri: res.imageUrl, isStatic: true };
-      //   const images = this.state.images;
-      //   images[index] = source;
-      //   this.setState({ images });
-      // })
-      // .catch(error => {
-      //   console.error(error);
-      // });
+
+      api
+        .postUserPhoto(imgBody)
+        .then(res => {
+          const source = { uri: res.imageUrl, isStatic: true };
+          console.log(res);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     });
   }
 
@@ -159,6 +158,47 @@ export default class LoginScreen extends Component {
         this.setState({ user: { error: error } });
       });
   }
+  iosSignIn = () => {
+    let redirectUrl = AuthSession.getRedirectUrl();
+    let result = AuthSession.startAsync({
+      authUrl:
+      `https://accounts.google.com/o/oauth2/v2/auth` +
+      `&client_id=959826721453-9ee4bq4h7uvantvbeoj6da3lr91do8oa.apps.googleusercontent.com` +
+      `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
+    })
+      .then(info => {
+        let obj = {
+          id: info.user.id,
+          name: info.user.name,
+          First_name: info.user.given_name,
+          Last_name: info.user.family_name,
+          verified: info.user.verified_email,
+          email: info.user.email,
+          link: info.user.link,
+          picture: { data: { url: info.user.picture } }
+        };
+        this.props.onLogin(obj);
+        const api = Api.create();
+
+        api
+          .postUserData({
+            token: info.credentials.id_token,
+            authType: "google"
+          })
+          .then(response => {
+            this.props.stop(response);
+            // console.log(JSON.stringify(response.data));
+            this._onValueChange(STORAGE_KEY, response.data.jwtToken);
+          });
+
+        if (this.props.user.name) {
+          this.props.navigation.navigate("HomeScreenContainer");
+        }
+      })
+      .catch(error => {
+        this.setState({ user: { error: error } });
+      });
+  }
   render() {
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
@@ -177,7 +217,7 @@ export default class LoginScreen extends Component {
             title="Sign In With Google"
             style={{ backgroundColor: "red" }}
             onPress={() => {
-              this.googleSignIn();
+              this.iosSignIn();
             }}
           />
         </TouchableOpacity>

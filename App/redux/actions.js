@@ -47,3 +47,10 @@ export function Add_Badge(badge) {
     badge
   };
 }
+
+export function Token(token) {
+  return {
+    type: "SET_Token",
+    token
+  };
+}

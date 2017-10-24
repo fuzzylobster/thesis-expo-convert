@@ -7,7 +7,8 @@ import {
   TouchableHighlight,
   Button
 } from 'react-native';
-import Expo, { Permissions, BlurView, Modal , Camera} from 'expo';
+import Expo, { Permissions, BlurView, Modal} from 'expo';
+import Camera from 'react-native-camera';
 import { NavigationActions } from 'react-navigation';
 import * as THREE from 'three';
 // import ExpoTHREE from 'expo-three';

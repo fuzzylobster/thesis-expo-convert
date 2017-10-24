@@ -19,6 +19,7 @@ export default class HomeScreen extends Component {
           <HomeScreenHeader
             user={this.props.user}
             navigation={this.props.navigation}
+            set_Token={this.props.set_Token}
           />
         </Row>
         <Row size={90} >
