@@ -155,7 +155,7 @@ export default class display extends Component {
               title={`${this.props.waypoint.name} AR Event`}
               style={{ alignSelf: "center" }}
               onPress={() => {
-                  if (this.isInRadius === "Yep it's in the radius") { 
+                  {/* if (this.isInRadius === "Yep it's in the radius") {  */}
                   let badgeName = this.props.waypoint.name
                   this.props.navigation.navigate('ARContainer', {
                     refresh: () => {
@@ -166,9 +166,9 @@ export default class display extends Component {
                         this.render();
                     }
                   })
-                } else {
-                  this.isInRadius = "Keep looking!"
-                } 
+                {/* } else { */}
+                  {/* this.isInRadius = "Keep looking!" */}
+                {/* }  */}
               }
               }
             /> 

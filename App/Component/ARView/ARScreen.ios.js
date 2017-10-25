@@ -43,6 +43,8 @@ xPosition: 0});
     if(this.state.yPosition >= -0.95 && this.state.yPosition <= -0.7) {
       if (this.props.currentStopIndex === this.props.currentRoute.length - 1) {
         this.routeIsComplete = true;
+        this.props.addBadge(this.props.currentStop.name);
+        this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name));
       } else {
       this.props.addBadge(this.props.currentStop.name);
       this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name));
@@ -55,13 +57,14 @@ xPosition: 0});
         alert(`Congratulations! You've finished the route and earned ${this.props.currentRoute.length} badges along the way.`)
         
         this.props.endRoute(this.props.advCount + 1);
-        this.props.navigation.dispatch(NavigationActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({routeName: 'HomeScreenContainer'})
+        // this.props.navigation.dispatch(NavigationActions.reset({
+        //   index: 0,
+        //   actions: [
+        //     NavigationActions.navigate({routeName: 'HomeScreenContainer'})
 
-          ]
-        }));
+        //   ]
+        // }));
+        this.props.navigation.goBack('RoutesContainer');
       } else {
         this.props.navigation.state.params.refresh();
       alert(`You've added the ${this.props.currentRoute[this.props.currentStopIndex].name} badge!
@@ -135,7 +138,7 @@ xPosition: 0});
             flexDirection: 'column',
           }}
               >
-            <Text>{this.state.yPosition}</Text>
+            {/* <Text>{this.state.yPosition}</Text> */}
 
               <Expo.GLView
                 {...this.panResponder.panHandlers}
@@ -206,7 +209,9 @@ xPosition: 0});
     
     
     // this.yPosition = line.position.y;
-    cube.position.z = -1;
+    let forwardBack = [-5, 5]
+    let randomPosition = Math.random() * forwardBack[Math.floor(Math.random())]
+    cube.position.z = randomPosition;
     // cube.position.y = -1;
     
     
@@ -215,6 +220,17 @@ xPosition: 0});
     scene.add(cube);
     
     const container = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2);
+    // var loader = new THREE.CubeTextureLoader();
+    // loader.setPath('../../../assets/icons/');
+
+    // var textureCube = loader.load([
+    //   'crate.gif', 'crate.gif',
+    //   'crate.gif', 'crate.gif',
+    //   'crate.gif', 'crate.gif'
+    // ]);
+    // const containerMaterial = new THREE.MeshBasicMaterial({
+    //   envMap: textureCube
+    // })
     const containerMaterial = new THREE.MeshBasicMaterial({
       map: await ExpoTHREE.createTextureAsync({
         asset: Expo.Asset.fromModule(require('../../../assets/icons/app-icon.png'))
@@ -226,10 +242,24 @@ xPosition: 0});
       xPosition: 0,
       containerMaterial: containerMaterial
     })
-    const containerMesh = new THREE.Mesh(container, this.state.containerMaterial);
-    containerMesh.position.z = -1;
+    const containerMesh = new THREE.Mesh(container, containerMaterial);
+    containerMesh.position.z = randomPosition;
     containerMesh.position.y = cube.position.y -0.75;
     scene.add(containerMesh);
+
+    var dir = new THREE.Vector3(0, -0.5, 0);
+
+    //normalize the direction vector (convert to vector of length 1)
+    dir.normalize();
+
+    var origin = new THREE.Vector3(0, 0, 0);
+    var length = 0.4;
+    var hex = 0xffff00;
+
+    var arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex, 0.1, 0.05);
+    arrowHelper.position.z = randomPosition;
+    arrowHelper.position.y = cube.position.y - 0.25
+    scene.add(arrowHelper);
     // CUSTOM SHAPE, in progress.
     // var geometry = new THREE.Geometry();
     // geometry.vertices.push(

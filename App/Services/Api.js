@@ -25,27 +25,37 @@ const create = (baseURL = "http://270a5296.ngrok.io/") => {
   });
 
   const postUserPhoto = imgBody => apiUpload.post("/image-upload", imgBody);
-  const postUserData = user => api.post("/authentication", user);
+  const postUserData = user => api.post("/users", user);
   const findUserData = query =>
     api.get(`/users?googleId=${query}`).then(response => {
       console.log(response);
       return response.data;
     });
   const saveRoute = route => api.post("/route", route); 
-  const addBadge = (badges, userID) => api.patch(`users/${userID}`, {
+  const addBadge = (badges, userID) => api.patch(`users/1`, {
     badges: badges
   });
-  const endRoute = (newAdvCount, userID) => api.patch(`users/${userID}`, {
+
+  const endRoute = (newAdvCount, userID) => api.patch(`users/1`, {
     advCounter: newAdvCount
-  }
-  )
+  });
+
+  const saveCities = newCities => api.patch(`users/1`, {
+    cities: newCities
+  });
+
+  const updateMiles = newMiles => api.patch('users/1', {
+    miles: newMiles
+  });
   return {
     postUserData,
     findUserData,
     postUserPhoto,
     saveRoute,
     addBadge,
-    endRoute
+    endRoute,
+    saveCities,
+    updateMiles
   };
 
 };

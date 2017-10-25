@@ -48,18 +48,22 @@ export default class HomeScreen extends Component {
   }
 
   getData() {
-    getJWT().then(jwt => {
-      // Decode
-      const decoded = jwtdecode(jwt);
-      // HTTP request
-      const api = Api.create();
-      api.findUserData(decoded.userID).then(Response => {
-        this.props.set_Token(Response.data[0].id);
-        console.log(Response);
-      });
+    console.log(this.props.token);
+    console.log(this.props.advCounter);
+    console.log(this.props.badges);
 
-      return decoded.userID;
-    });
+    // getJWT().then(jwt => {
+    //   // Decode
+    //   const decoded = jwtdecode(jwt);
+    //   // HTTP request
+    //   const api = Api.create();
+    //   api.findUserData(decoded.userID).then(Response => {
+    //     this.props.set_Token(Response.data[0].id);
+    //     console.log(Response.data[0]);
+    //   });
+
+    //   return decoded.userID;
+    // });
     this.props.navigation.navigate("Profile");
   }
 

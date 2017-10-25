@@ -54,3 +54,31 @@ export function Token(token) {
     token
   };
 }
+
+export function Set_Adv_Counter(advCounter) {
+  return {
+    type: "SET_Adv_Counter",
+    advCounter
+  };
+}
+
+export function Set_Badges(badges) {
+  return {
+    type: "SET_Badges",
+    badges
+  };
+}
+
+export function Set_cities(cities) {
+  return {
+    type: "SET_cities",
+    cities
+  };
+}
+
+export function Set_miles(miles) {
+  return {
+    type: "SET_miles",
+    miles
+  };
+}

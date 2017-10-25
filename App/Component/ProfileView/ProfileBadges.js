@@ -5,11 +5,11 @@ import styles from "./../Styles/ProfileBadgesStyle";
 
 export default class ProfileBadges extends Component {
   milesTrekked() {
-    let miles = 0;
-    for (var i = 0; i < this.props.adventures; i++) {
-      miles += this.props.adventures[i].distance;
-    }
-    return miles;
+    // let miles = 0;
+    // for (var i = 0; i < this.props.adventures; i++) {
+    //   miles += this.props.adventures[i].distance;
+    // }
+    return this.props.miles;
   }
   cities() {
     let numCities = [];
@@ -21,7 +21,7 @@ export default class ProfileBadges extends Component {
     return numCities.length;
   }
   badges() {
-    let badges = this.props.collectedBadges;
+    let badges = this.props.badges;
     // for (var i = 0; i < this.props.adventures; i++) {
     //   for (var j = 0; j < this.props.adventures[i].badges; j++) {
     //     if (numCities.indexOf(this.props.adventures[i].badges[j]) === -1) {
@@ -35,7 +35,7 @@ export default class ProfileBadges extends Component {
     return (
       <View style={[styles.bar, styles.badgeContainer]}>
         <View style={[styles.barItem, styles.barSeparator]}>
-          <Text style={styles.barTop}>{this.props.adventures.length}</Text>
+          <Text style={styles.barTop}>{this.props.advCounter}</Text>
           {/** Adventures completed*/}
           <Text style={styles.barBottom}>Adventures completed</Text>
         </View>

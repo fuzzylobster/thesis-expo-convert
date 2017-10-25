@@ -24,20 +24,20 @@ export default class MapViewer extends Component {
   potentialGeofence;
   markerLocation = this.props.waypoint.location;
   componentWillMount() {
-    // if (Platform.OS === "android") {
-    //   PermissionsAndroid.request(
-    //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-    //   ).then(granted => {
-    //     if (granted) {
-    //       // this.watchLocation1();
-    //       this.watchLocation2();
-    //     }
-    //   });
-    // } else {
+    if (Platform.OS === "android") {
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      ).then(granted => {
+        if (granted) {
+          // this.watchLocation1();
+          this.watchLocation2();
+        }
+      });
+    } else {
       // this.watchLocation1();
-      // this.watchLocation2();
+      this.watchLocation2();
       this.getLocationAsync();
-    // }
+    }
   }
 
   getLocationAsync = async () => {

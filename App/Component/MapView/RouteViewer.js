@@ -21,9 +21,9 @@ export default class RouteViewer extends Component {
     state = {
       tempAdventure: {
         name: "tempAdventure",
-        markerLocations: [
-
-        ]
+        markerLocations: [],
+        cities: [],
+        miles: 0
       }
     }
   render() {
@@ -45,12 +45,21 @@ export default class RouteViewer extends Component {
         <Row size={30}>
 
         <PlaceSearch
-          setMarker={(newMarker) => {
-            this.setState({tempAdventure: {name: "tempAdv", markerLocations: this.state.tempAdventure.markerLocations.concat(newMarker)}});
+          setMarker={(newMarker, city, miles) => {
+            this.setState({
+              tempAdventure: {
+                name: "tempAdv",
+                markerLocations: this.state.tempAdventure.markerLocations.concat(
+                  newMarker
+                ),
+                cities: this.state.tempAdventure.cities.concat(city),
+                miles: this.state.tempAdventure.miles + miles
+              }
+            });
           }}
           markers={this.props.markers}
           setAdventure={() => {
-            this.props.set_Adventure(this.state.tempAdventure, true)
+            this.props.set_Adventure(this.state.tempAdventure, true, this.props.token)
           }}
           tempAdventure={this.state.tempAdventure}
           setWaypoint={() => {

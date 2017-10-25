@@ -30,8 +30,11 @@ const initialState = {
       image: "https://media.timeout.com/images/100729813/image.jpg"
     }
   ],
+  cities: [],
   adventure: {
     name: "Jake",
+    miles: 5,
+    cities: ["New Orleans, Metairie"],
     markerLocations: [
       {
         name: '729 Louque Pl',
@@ -80,7 +83,7 @@ const initialState = {
   },
   badges: [
     
-      "Trail Maker"
+      "Let's Get Going!"
     
   ],
   stockPhotos: [
@@ -147,7 +150,8 @@ const initialState = {
       type: "Choose your starting point and let us handle the rest."
     }
   ],
-  token: ""
+  token: "",
+  miles: 0
 };
 
 export default function peopleReducer(state = initialState, action) {
@@ -191,6 +195,26 @@ export default function peopleReducer(state = initialState, action) {
           action.badge
         )
       });
+    case "SET_Token":
+      return Object.assign({}, state, {
+        token: action.token
+      });
+    case "SET_Adv_Counter":
+      return Object.assign({}, state, {
+        AdvCounter: action.advCounter
+      });
+    case "SET_Badges":
+      return Object.assign({}, state, {
+        badges: action.badges
+      });
+    case "SET_cities":
+      return Object.assign({}, state, {
+        cities: state.cities.concat(action.cities)
+      });
+    case "SET_miles":
+      return Object.assign({}, state, {
+        miles: state.miles + action.miles
+      })
     default:
       return state;
   }

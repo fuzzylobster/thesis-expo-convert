@@ -21,7 +21,7 @@ export default class PlaceSearch extends Component {
             this.props.setMarker({
               name: details.formatted_address,
               location: details.geometry.location
-            });
+            }, details.address_components[3].short_name, 100);
             console.log(data, details);
           }}
           getDefaultValue={() => ""}

@@ -69,7 +69,10 @@ export default class ProfileView extends Component {
         <Row  size={10}>
             <View style={styles.container}>
 
-            <ProfileBadges  adventures={this.props.adventures} collectedBadges={this.props.badges}/>
+            <ProfileBadges  
+              advCounter={this.props.advCounter} 
+              badges={this.props.badges}
+              miles={this.props.miles}/>
             </View>
 
             
