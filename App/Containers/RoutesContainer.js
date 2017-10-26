@@ -42,10 +42,11 @@ const mapDispatchToProps = dispatch => {
         const api = Api.create();
         console.log(id);
 
-        newAdventure = {
+        let newAdventure = {
           userId: id,
           name: adventure.name,
-          locs: adventure.markerLocations
+          locs: adventure.markerLocations,
+          cities: adventure.cities
         };
 
         const api2 = Api.create();

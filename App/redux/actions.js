@@ -89,3 +89,10 @@ export function Recommendations(Recommendations) {
     Recommendations
   }
 }
+
+export function Download_Adventures(Adventures) {
+  return {
+    type: "SET_Adventures",
+    Adventures
+  }
+}

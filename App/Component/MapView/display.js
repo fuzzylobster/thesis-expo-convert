@@ -28,6 +28,8 @@ import Polyline from "@mapbox/polyline";
 import Expo, { MapView, Constants, Location, Permissions } from 'expo';
 import { NavigationActions } from 'react-navigation'
 import { stringify as queryString } from "query-string";
+import Api from '../../Services/Api';
+import Animation from './Animation';
 
 
 const { width, height } = Dimensions.get("window");
@@ -50,10 +52,13 @@ export default class display extends Component {
       const image = {
         uri: response.uri,
         type: "image/jpeg",
-        name: "myImage" + "-" + Date.now() + ".jpg"
+        name: "myImage" + "-" + Date.now() + ".jpg",
+        route:this.props.route.name,
+        userID: this.props.userID,
       };
       const imgBody = new FormData();
       imgBody.append("image", image);
+      const api = Api.create();
       api
         .postUserPhoto(imgBody)
         .then(res => {
@@ -281,11 +286,8 @@ export default class display extends Component {
       );
       return (
         <View style={{ flex: 1 }}>
-          <Spinner
-            visible={this.state.visible}
-            textContent={"Loading..."}
-            textStyle={{ color: "#FFF" }}
-          />
+          
+          <Animation />
         </View>
       );
     }

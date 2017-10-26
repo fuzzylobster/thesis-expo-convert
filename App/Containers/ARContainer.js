@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Add_Badge, Current_Stop, Current_adventure, Set_Adv_Counter, Set_miles } from "../redux/actions";
+import { Add_Badge, Current_Stop, Current_adventure, Set_Adv_Counter, Set_miles, Download_Adventures } from "../redux/actions";
 import { Platform } from 'react-native';
 import ARScreen from "../Component/ARView/ARScreen";
 import Api from "../Services/Api"
@@ -14,7 +14,8 @@ const mapStateToProps = state => {
     currentBadges: state.people.badges,
     advCount: state.people.AdvCounter,
     miles: state.people.miles,
-    routeDistance: state.people.adventure.miles
+    routeDistance: state.people.adventure.miles,
+    userPicUrl: state.people.user.picture.data.url
   };
 };
 
@@ -46,7 +47,8 @@ const mapDispatchToProps = dispatch => {
     endRoute: (newAdvCount) => {
       let api = Api.create();
       api.endRoute(newAdvCount);
-      dispatch(Set_Adv_Counter(newAdvCount))
+      dispatch(Download_Adventures([]));
+      dispatch(Set_Adv_Counter(newAdvCount));
       
 
       

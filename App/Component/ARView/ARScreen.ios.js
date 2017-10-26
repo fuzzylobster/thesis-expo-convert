@@ -233,8 +233,11 @@ xPosition: 0});
     //   envMap: textureCube
     // })
     const containerMaterial = new THREE.MeshBasicMaterial({
+      
       map: await ExpoTHREE.createTextureAsync({
-        asset: Expo.Asset.fromModule(require('../../../assets/icons/app-icon.png'))
+        asset: Expo.Asset.fromModule(require('../../../assets/icons/184.png'))
+        
+      
       })
     })
     this.setState({

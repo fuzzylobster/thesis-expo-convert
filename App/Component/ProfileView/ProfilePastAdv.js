@@ -13,7 +13,7 @@ export default class ProfilePastAdv extends Component {
     return (
       <Swiper style={styles.wrapper}>
         {this.props.adventures.map((adventure, i) => (
-            <CardImage style={styles.slide} adventure={adventure} user={this.props.user} key={i}/>
+            <CardImage height={150} style={styles.slide} adventure={adventure} user={this.props.user} key={i}/>
         ))}
       </Swiper>
     );

@@ -223,31 +223,14 @@ export default class LoginScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity>
           <Button
-            title="Sign In With blank"
+            title="Sign In With Dev"
             style={{ backgroundColor: "red" }}
             onPress={() => {
               this.blank();
             }}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Button
-            title="Image Picker"
-            style={{ backgroundColor: "red" }}
-            onPress={() => {
-              this.newImage();
-            }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Button
-            title="AR View"
-            style={{ backgroundColor: "red" }}
-            onPress={() => {
-              this.props.navigation.navigate('ARContainer')
-            }}
-          />
-        </TouchableOpacity>
+        
       </View>
     );
   }

@@ -35,7 +35,7 @@ export default class RouteViewer extends Component {
     this.drawer._root.open();
   };
   setMarker = (newMarker, city, miles) => {
-    console.log(JSON.stringify(newMarker));
+    // console.log(JSON.stringify(newMarker));
     this.setState({
       tempAdventure: {
         name: "tempAdv",
@@ -72,7 +72,7 @@ export default class RouteViewer extends Component {
           <OdysseyList
             navigation={this.props.navigation}
             setAdventure={() => {
-              this.props.set_Adventure(this.state.tempAdventure, true, this.props.token)
+              this.props.set_Adventure(this.state.tempAdventure, true, 1)
               }}
             list={this.state.tempAdventure}
             enableEmptySections={true}

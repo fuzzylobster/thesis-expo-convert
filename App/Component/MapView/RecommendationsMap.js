@@ -44,7 +44,7 @@ export default class RecommendationsMap extends Component {
   render() {
     return (
       <MapView.Animated
-        region={this.props.mapRegion}
+        initialRegion={this.props.mapRegion}
         style={styles.fullscreen}
         onRegionChange={this.props.onRegionChange}
       >
@@ -84,8 +84,6 @@ export default class RecommendationsMap extends Component {
                       location: {
                         lat: marker.venue.location.lat,
                         lng: marker.venue.location.lng,
-                        tip: tip,
-                        contact: marker.venue.contact.formattedPhone || "",
                         venueID: marker.venue.id || ""
                       }
                     },

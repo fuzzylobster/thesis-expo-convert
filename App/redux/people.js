@@ -34,7 +34,7 @@ const initialState = {
   adventure: {
     name: "Jake",
     miles: 5,
-    cities: ["New Orleans, Metairie"],
+    cities: ["New Orleans", "Metairie"],
     markerLocations: [
       {
         name: '729 Louque Pl',
@@ -150,6 +150,9 @@ const initialState = {
       type: "Choose your starting point and let us handle the rest."
     }
   ],
+  downloadedAdventures: [
+
+  ],
   token: "",
   miles: 0,
   recommendations: []
@@ -215,11 +218,15 @@ export default function peopleReducer(state = initialState, action) {
     case "SET_miles":
       return Object.assign({}, state, {
         miles: state.miles + action.miles
-      })
+      });
     case "SET_Recommendations":
     return Object.assign({}, state, {
       recommendations: action.Recommendations
-    })
+    });
+    case "SET_Adventures":
+    return Object.assign({}, state, {
+      downloadedAdventures: action.Adventures
+    });
     default:
       return state;
   }

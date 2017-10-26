@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Button, Image } from "react-native";
+import { Platform, StyleSheet, Text, View, Button, Image, AsyncStorage } from "react-native";
 import FooterMenu from "../Footer";
 import ProfilePastAdv from "../ProfileView/ProfilePastAdv";
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -65,6 +65,9 @@ export default class HomeScreen extends Component {
             user={this.props.user}
             adventures={this.props.adventures}
             navigation={this.props.navigation}
+            downloadedAdventures={this.props.downloadedAdventures}
+            Download_Adventures={this.props.Download_Adventures}
+            setAdventure={this.props.Set_Adventure}
           />
         </Row>
       </Grid>

@@ -20,7 +20,7 @@ import {
   Button,
   Label,
   Footer,
-  Spinner
+  Spinner,
 } from "native-base";
 import styles from "./styles";
 import {MapView, Location} from "expo";
@@ -28,6 +28,7 @@ import RecommendationsMap from "./RecommendationsMap";
 import { BottomTopics } from "./Topics";
 import { stringify as queryString } from "query-string";
 import OdysseyList from "./OdysseyList";
+import Animation from "./Animation";
 
 const CLIENT_ID = "NWSH4V1UKUFIVAP2QY15LOMDVIZ5HMY1WAYL31VFECAHNZTN";
 const CLIENT_SECRET = "U2TGSQJK4YYQT1NI25HAKQWW3QMSMEO42AVS0LQ2CU0TPMOH";
@@ -192,7 +193,7 @@ export default class MapViewer extends Component {
   }
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
+    this.watchID = null;
   }
 
   onRegionChange(region, gpsAccuracy) {
@@ -208,6 +209,7 @@ export default class MapViewer extends Component {
 
   fetchVenues(region, lookingFor) {
     if (!this.shouldFetchVenues(lookingFor)) return;
+    if (lookingFor) {
 
     const query = this.venuesQuery(region, lookingFor);
 
@@ -232,6 +234,7 @@ export default class MapViewer extends Component {
         this.setState({ lookingFor: null });
       })
       .catch(err => console.log(err));
+    }
   }
 
   shouldFetchVenues(lookingFor) {
@@ -293,11 +296,7 @@ export default class MapViewer extends Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Spinner
-            visible={this.state.visible}
-            textContent={"Loading..."}
-            textStyle={{ color: "#FFF" }}
-          />
+          <Animation />
         </View>
       );
     }

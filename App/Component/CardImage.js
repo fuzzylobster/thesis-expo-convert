@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import {
   Container,
   Header,
@@ -43,7 +43,7 @@ export default class CardImage extends Component {
             <CardItem cardBody>
               <Image
                 source={{ uri: this.props.adventure.cover }}
-                style={{ height: 150, width: null, flex: 1 }}
+                style={{ height: this.props.height, width: null, flex: 1 }}
               />
             </CardItem>
             {this.renderIf(
@@ -72,9 +72,48 @@ export default class CardImage extends Component {
                 <Text>{this.props.adventure.type}</Text>
               </CardItem>
             )}
+            {this.renderIf(
+              !this.props.adventure.likes && !this.props.downloadedAdventure,
+              <CardItem style={styles.buttonContainer}>
+                <Button style={styles.selectButton} onPress={() => {
+                  if (this.props.adventure.name === "Plot Your Own Path") {
+                    this.props.navigation.navigate('RoutesContainer');
+                  } else {
+                    this.props.downloadAdventures()
+                  }
+                  }}>
+                  <Text style={styles.selectText}>I like this one!</Text>
+                </Button>
+              </CardItem>
+            )}
+            {this.renderIf(
+              this.props.downloadedAdventure,
+              <CardItem style={styles.buttonContainer}>
+                <Button style={styles.selectButton} onPress={() => {
+                  this.props.setAdventure(this.props.downloadedAdventure);
+                  this.props.navigation.navigate('testContainer')
+                
+                }}>
+                  <Text style={styles.selectText}>Let's Go!</Text>
+                </Button>
+              </CardItem>
+            )}
           </Card>
         </Content>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    justifyContent: "space-around"
+  },
+  selectButton: {
+    height: 35
+  },
+  selectText: {
+    color: "#FFFFFF",
+    fontWeight: "bold"
+  }
+});

@@ -1,5 +1,5 @@
 import apisauce from "apisauce";
-const create = (baseURL = "http://270a5296.ngrok.io/") => {
+const create = (baseURL = "http://889062c7.ngrok.io/") => {
   const api = apisauce.create({
     baseURL,
     headers: {
@@ -47,6 +47,11 @@ const create = (baseURL = "http://270a5296.ngrok.io/") => {
   const updateMiles = newMiles => api.patch('users/1', {
     miles: newMiles
   });
+
+  const downloadAdventures = () => api.get('route').then(response => {
+    // console.log(response);
+    return response.data.data;
+  })
   return {
     postUserData,
     findUserData,
@@ -55,7 +60,8 @@ const create = (baseURL = "http://270a5296.ngrok.io/") => {
     addBadge,
     endRoute,
     saveCities,
-    updateMiles
+    updateMiles,
+    downloadAdventures
   };
 
 };
