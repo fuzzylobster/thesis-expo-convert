@@ -72,7 +72,8 @@ export default class ProfileView extends Component {
             <ProfileBadges  
               advCounter={this.props.advCounter} 
               badges={this.props.badges}
-              miles={this.props.miles}/>
+              miles={this.props.miles}
+              cities={this.props.cities}/>
             </View>
 
             

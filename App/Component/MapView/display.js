@@ -5,7 +5,8 @@ import {
   Button,
   Text,
   PermissionsAndroid,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SocialIcon } from "react-native-elements";
@@ -36,21 +37,21 @@ export default class display extends Component {
   isInRadius = "Nope not in radius";
   potentialGeofence;
   markerLocation = this.props.waypoint.location;
-  // componentWillMount() {
-  //   if (Platform.OS === "android") {
-  //     PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-  //     ).then(granted => {
-  //       if (granted) {
-  //         // this.watchLocation1();
-  //         this.watchLocation2();
-  //       }
-  //     });
-  //   } else {
-  //     // this.watchLocation1();
-  //     this.watchLocation2();
-  //   }
-  // }
+  componentWillMount() {
+    if (Platform.OS === "android") {
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      ).then(granted => {
+        if (granted) {
+          // this.watchLocation1();
+          this.watchLocation2();
+        }
+      });
+    } else {
+      // this.watchLocation1();
+      this.watchLocation2();
+    }
+  }
 
   
 

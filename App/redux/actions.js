@@ -82,3 +82,10 @@ export function Set_miles(miles) {
     miles
   };
 }
+
+export function Recommendations(Recommendations) {
+  return {
+    type: "SET_Recommendations",
+    Recommendations
+  }
+}

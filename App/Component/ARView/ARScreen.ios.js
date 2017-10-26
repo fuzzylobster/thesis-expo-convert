@@ -57,14 +57,14 @@ xPosition: 0});
         alert(`Congratulations! You've finished the route and earned ${this.props.currentRoute.length} badges along the way.`)
         
         this.props.endRoute(this.props.advCount + 1);
-        // this.props.navigation.dispatch(NavigationActions.reset({
-        //   index: 0,
-        //   actions: [
-        //     NavigationActions.navigate({routeName: 'HomeScreenContainer'})
+        this.props.navigation.dispatch(NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({routeName: 'HomeScreenContainer'})
 
-        //   ]
-        // }));
-        this.props.navigation.goBack('RoutesContainer');
+          ]
+        }));
+        
       } else {
         this.props.navigation.state.params.refresh();
       alert(`You've added the ${this.props.currentRoute[this.props.currentStopIndex].name} badge!

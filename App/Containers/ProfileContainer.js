@@ -10,7 +10,8 @@ const mapStateToProps = state => {
     background: state.people.Background,
     badges: state.people.badges,
     advCounter: state.people.AdvCounter,
-    miles: state.people.miles
+    miles: state.people.miles,
+    cities: state.people.cities
   };
 };
 

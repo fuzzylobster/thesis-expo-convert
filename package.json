@@ -12,6 +12,7 @@
     "expo-three": "^2.0.2",
     "jwt-decode": "^2.2.0",
     "native-base": "^2.3.2",
+    "query-string": "^5.0.1",
     "react": "16.0.0-alpha.12",
     "react-native": "https://github.com/expo/react-native/archive/sdk-21.0.2.tar.gz",
     "react-native-camera": "^0.10.0",

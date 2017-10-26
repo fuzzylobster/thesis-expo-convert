@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, Text, View, TouchableHighlight } from "react-native";
 
 import styles from "./../Styles/ProfileBadgesStyle";
 
@@ -12,13 +12,13 @@ export default class ProfileBadges extends Component {
     return this.props.miles;
   }
   cities() {
-    let numCities = [];
-    for (var i = 0; i < this.props.adventures; i++) {
-      if (numCities.indexOf(this.props.adventures[i].city) === -1) {
-        numCities.push(this.props.adventures[i].city);
-      }
-    }
-    return numCities.length;
+    // let numCities = [];
+    // for (var i = 0; i < this.props.adventures; i++) {
+    //   if (numCities.indexOf(this.props.adventures[i].city) === -1) {
+    //     numCities.push(this.props.adventures[i].city);
+    //   }
+    // }
+    return this.props.cities.length;
   }
   badges() {
     let badges = this.props.badges;
@@ -49,10 +49,15 @@ export default class ProfileBadges extends Component {
           {/** Cities Conquered*/}
           <Text style={styles.barBottom}>Cities Conquered</Text>
         </View>
-        <View style={styles.barItem}>
+        <View>
+
+        <TouchableHighlight style={styles.barItem}
+          onPress={() => this.props.showBadges(true)}
+        >
           <Text style={styles.barTop}>{this.badges()}</Text>
           {/** Badges Completed*/}
           <Text style={styles.barBottom}>Badges Earned</Text>
+        </TouchableHighlight>
         </View>
       </View>
     );

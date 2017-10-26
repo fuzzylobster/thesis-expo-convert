@@ -5,7 +5,8 @@ import {
   Current_Stop,
   Gps_Marker,
   Marker_locations,
-  Set_cities
+  Set_cities,
+  Recommendations
 } from "../redux/actions";
 import Api from '../Services/Api'
 import RouteViewer from "../Component/MapView/RouteViewer";
@@ -17,7 +18,9 @@ const mapStateToProps = state => {
     waypoint: state.people.CurrentStop,
     gps: state.people.gps,
     markers: state.people.adventure.markerLocations,
-    token: state.people.token
+    mapRecommendations: state.people.recommendations,
+    token: state.people.token,
+    user: state.people.user
   };
 };
 
@@ -30,7 +33,9 @@ const mapDispatchToProps = dispatch => {
     set_waypoint: loc => {
       dispatch(Current_Stop(loc));
     },
-
+    set_recommendations: recommendations => {
+      dispatch(Recommendations(recommendations));
+    },
     set_Adventure: (adventure, toBeSaved, id) => {
       dispatch(Current_adventure(adventure));
       if (toBeSaved) {

@@ -6,26 +6,50 @@ import {
   Content,
   Form,
   Item,
+  Drawer,
   Input,
-  Label,
-  
+  Label
 } from "native-base";
-import {Grid, Row, Col} from "react-native-easy-grid"
-
+import { Col, Row, Grid } from "react-native-easy-grid";
 import FooterNav from "../Footer";
 import MapViewer from "./MapViewer";
 import PlaceSearch from "./PlaceSearch";
 import styles from "./../Styles/HomeScreenStyle";
-
+import OdysseyList from "./OdysseyList";
 export default class RouteViewer extends Component {
-    state = {
+  state = {
+    tempAdventure: {
+      name: "tempAdventure",
+      markerLocations: [],
+      cities: [],
+      miles: 0,
+      tip: "",
+      contact: ""
+    },
+    test: ["test 1", "test 2"]
+  };
+  closeDrawer = () => {
+    this.drawer._root.close();
+  };
+  openDrawer = () => {
+    this.drawer._root.open();
+  };
+  setMarker = (newMarker, city, miles) => {
+    console.log(JSON.stringify(newMarker));
+    this.setState({
       tempAdventure: {
-        name: "tempAdventure",
-        markerLocations: [],
-        cities: [],
-        miles: 0
+        name: "tempAdv",
+        markerLocations: this.state.tempAdventure.markerLocations.concat(
+          newMarker
+        ),
+        cities: this.state.tempAdventure.cities.concat(city),
+        miles: this.state.tempAdventure.miles + miles
       }
-    }
+    });
+  };
+  componentDidMount() {
+    console.log(this.state.tempAdventure.markerLocations);
+  }
   render() {
     const { navigate } = this.props.navigation;
     const change = {
@@ -39,56 +63,51 @@ export default class RouteViewer extends Component {
       loc: this.props.loc,
       gps: this.props.gps
     };
-
     return (
-      <Grid >
-        <Row size={30}>
-
-        <PlaceSearch
-          setMarker={(newMarker, city, miles) => {
-            this.setState({
-              tempAdventure: {
-                name: "tempAdv",
-                markerLocations: this.state.tempAdventure.markerLocations.concat(
-                  newMarker
-                ),
-                cities: this.state.tempAdventure.cities.concat(city),
-                miles: this.state.tempAdventure.miles + miles
-              }
-            });
-          }}
-          markers={this.props.markers}
-          setAdventure={() => {
-            this.props.set_Adventure(this.state.tempAdventure, true, this.props.token)
-          }}
-          tempAdventure={this.state.tempAdventure}
-          setWaypoint={() => {
-            this.props.set_waypoint(this.state.tempAdventure.markerLocations[0]);
-          }}
-          navigation={this.props.navigation}
-
-        />
-        </Row>
-        <Row size={70}>
-
+      <Drawer
+        ref={ref => {
+          this.drawer = ref;
+        }}
+        content={
+          <OdysseyList
+            navigation={this.props.navigation}
+            setAdventure={() => {
+              this.props.set_Adventure(this.state.tempAdventure, true, this.props.token)
+              }}
+            list={this.state.tempAdventure}
+            enableEmptySections={true}
+            deleteMarker={newMarker => {
+              this.setState({
+                tempAdventure: {
+                  name: "tempAdv",
+                  markerLocations: newMarker,
+                  cities: this.state.tempAdventure.cities,
+                  miles: this.state.tempAdventure.miles,
+                  tip: this.state.tempAdventure.tip,
+                  contact: this.state.tempAdventure.contact
+                }
+              });
+            }}
+            testDelete={() => {
+              this.setState({ test: "it Worked" });
+            }}
+          />
+        }
+        onClose={() => this.closeDrawer()}
+      >
         <MapViewer
+          user={this.props.user}
           setLocation={this.props.set_location}
           setGps={this.props.set_gps_marker}
           gps={this.props.gps}
           loc={this.props.loc}
-          navigation={this.props.navigation}
-          waypoint={this.props.waypoint}
           markers={this.state.tempAdventure.markerLocations}
+          mapRecommendations={this.props.mapRecommendations}
+          set_recommendations={this.props.set_recommendations}
+          openDrawer={this.openDrawer.bind(this)}
+          setMarker={this.setMarker}
         />
-        </Row>
-        
-      </Grid>
+      </Drawer>
     );
   }
 }
-
-// <PlaceSearch
-// setMarker={this.props.add_marker}
-// markers={this.props.markers}
-// navigation={this.props.navigation}
-// />
