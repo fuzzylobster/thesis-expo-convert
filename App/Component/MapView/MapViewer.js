@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import {
   Platform,
@@ -163,19 +164,28 @@ export default class MapViewer extends Component {
   state = {
     mapRegion: null,
     gpsAccuracy: null,
-    recommendations: []
+    recommendations: [],
+    loc: {}
   };
   watchID = null;
 
   componentWillMount() {
-    this.watchID = Location.watchPositionAsync({ enableHighAccuracy: true, distanceInterval: 1 }, 
+    this.watchID = Location.watchPositionAsync({ enableHighAccuracy: true, distanceInterval: 1 },
       position => {
-      let region = {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: 0.00922 * 1.5,
+          longitudeDelta: 0.00421 * 1.5
+        };
+
+      let loc = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
         latitudeDelta: 0.00922 * 1.5,
         longitudeDelta: 0.00421 * 1.5
       };
+      this.setState({ gps: loc });
 
       this.onRegionChange(region, position.coords.accuracy);
     });
@@ -186,7 +196,9 @@ export default class MapViewer extends Component {
   }
 
   onRegionChange(region, gpsAccuracy) {
-    this.fetchVenues(region);
+    if (this.lookingFor) {
+      this.fetchVenues(region);
+    }
 
     this.setState({
       mapRegion: region,
@@ -217,6 +229,7 @@ export default class MapViewer extends Component {
           console.log(this.state.recommendations);
         }
         console.log(this.props.mapRecommendations);
+        this.setState({ lookingFor: null });
       })
       .catch(err => console.log(err));
   }
@@ -290,3 +303,24 @@ export default class MapViewer extends Component {
     }
   }
 }
+
+// <FooterTab>
+// <Button>
+//   <Text>Food</Text>
+// </Button>
+// <Button>
+//   <Text>Drinks</Text>
+// </Button>
+// <Button active>
+//   <Text>Shops</Text>
+// </Button>
+// <Button>
+//   <Text>Coffee</Text>
+// </Button>
+// <Button active>
+//   <Text>Sights</Text>
+// </Button>
+// <Button>
+//   <Text>Events</Text>
+// </Button>
+// </FooterTab>

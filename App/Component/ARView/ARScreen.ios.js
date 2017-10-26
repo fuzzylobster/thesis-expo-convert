@@ -56,6 +56,7 @@ xPosition: 0});
       if (this.routeIsComplete){
         alert(`Congratulations! You've finished the route and earned ${this.props.currentRoute.length} badges along the way.`)
         
+        this.props.updateMiles(this.props.routeDistance / 1609);
         this.props.endRoute(this.props.advCount + 1);
         this.props.navigation.dispatch(NavigationActions.reset({
           index: 0,
@@ -210,7 +211,7 @@ xPosition: 0});
     
     // this.yPosition = line.position.y;
     let forwardBack = [-5, 5]
-    let randomPosition = Math.random() * forwardBack[Math.floor(Math.random())]
+    let randomPosition = Math.random() * forwardBack[Math.floor(Math.random() * 2)]
     cube.position.z = randomPosition;
     // cube.position.y = -1;
     

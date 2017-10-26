@@ -9,7 +9,7 @@ export default class ProfileBadges extends Component {
     // for (var i = 0; i < this.props.adventures; i++) {
     //   miles += this.props.adventures[i].distance;
     // }
-    return this.props.miles;
+    return this.props.miles.toFixed(2);
   }
   cities() {
     // let numCities = [];
@@ -49,15 +49,13 @@ export default class ProfileBadges extends Component {
           {/** Cities Conquered*/}
           <Text style={styles.barBottom}>Cities Conquered</Text>
         </View>
-        <View>
+        <View style={[styles.barItem, styles.barSeparator]}>
 
-        <TouchableHighlight style={styles.barItem}
-          onPress={() => this.props.showBadges(true)}
-        >
+        
           <Text style={styles.barTop}>{this.badges()}</Text>
           {/** Badges Completed*/}
           <Text style={styles.barBottom}>Badges Earned</Text>
-        </TouchableHighlight>
+        
         </View>
       </View>
     );

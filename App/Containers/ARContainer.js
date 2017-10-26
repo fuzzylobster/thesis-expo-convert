@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Add_Badge, Current_Stop, Current_adventure } from "../redux/actions";
+import { Add_Badge, Current_Stop, Current_adventure, Set_Adv_Counter, Set_miles } from "../redux/actions";
 import { Platform } from 'react-native';
 import ARScreen from "../Component/ARView/ARScreen";
 import Api from "../Services/Api"
@@ -41,10 +41,12 @@ const mapDispatchToProps = dispatch => {
     updateMiles: (miles) => {
       let api = Api.create();
       api.updateMiles(miles);
+      dispatch(Set_miles(miles))
     },
     endRoute: (newAdvCount) => {
       let api = Api.create();
       api.endRoute(newAdvCount);
+      dispatch(Set_Adv_Counter(newAdvCount))
       
 
       

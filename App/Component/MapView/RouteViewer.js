@@ -83,8 +83,6 @@ export default class RouteViewer extends Component {
                   markerLocations: newMarker,
                   cities: this.state.tempAdventure.cities,
                   miles: this.state.tempAdventure.miles,
-                  tip: this.state.tempAdventure.tip,
-                  contact: this.state.tempAdventure.contact
                 }
               });
             }}
@@ -106,6 +104,8 @@ export default class RouteViewer extends Component {
           set_recommendations={this.props.set_recommendations}
           openDrawer={this.openDrawer.bind(this)}
           setMarker={this.setMarker}
+          searchBool={this.state.search}
+
         />
       </Drawer>
     );

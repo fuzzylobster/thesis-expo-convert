@@ -72,6 +72,9 @@ const mapDispatchToProps = dispatch => {
     add_marker: (marker) => {
       dispatch(Marker_locations(marker))
     }
+        // Set_cities: cities => {
+    //   dispatch(Set_cities(cities));
+    // },
   };
 };
 

@@ -23,7 +23,7 @@ import {
   Spinner
 } from "native-base";
 import styles from "./styles";
-// import Recommendation from "./Recommendation";
+import Recommendation from "./Recommendation";
 import CardImage from "./../CardImage";
 const renderIf = function (condition, content) {
   if (condition) {
@@ -49,7 +49,7 @@ export default class RecommendationsMap extends Component {
         onRegionChange={this.props.onRegionChange}
       >
         <MapView.Circle
-          center={this.props.mapRegion}
+          center={this.props.gps}
           radius={this.props.gpsAccuracy * 1.5}
           strokeWidth={0.5}
           strokeColor="rgba(66, 180, 230, 1)"
@@ -57,7 +57,7 @@ export default class RecommendationsMap extends Component {
         />
 
         <MapView.Circle
-          center={this.props.mapRegion}
+          center={this.props.gps}
           radius={5}
           strokeWidth={0.5}
           strokeColor="rgba(66, 180, 230, 1)"
@@ -76,21 +76,23 @@ export default class RecommendationsMap extends Component {
             >
               <MapView.Callout
                 tooltip={true}
-                /* info={marker.tips[0].text} */
-                onPress={() =>
+                onPress={() =>{
+                  const tip = marker.tips[0] ? marker.tips[0].text : "";
                   this.props.setMarker(
                     {
                       name: marker.venue.name,
                       location: {
                         lat: marker.venue.location.lat,
                         lng: marker.venue.location.lng,
-                        tip: marker.tips[0].text,
-                        contact: marker.venue.contact.formattedPhone
+                        tip: tip,
+                        contact: marker.venue.contact.formattedPhone || "",
+                        venueID: marker.venue.id || ""
                       }
                     },
                     marker.venue.location.city,
                     marker.venue.location.distance
                   )}
+                }
               >
                 <View>
                   <Button>
@@ -105,5 +107,3 @@ export default class RecommendationsMap extends Component {
     );
   }
 }
-
-//export default RecommendationsMap;
