@@ -9,6 +9,7 @@ import {
   Item,
   Input,
   Label,
+  Button,
   Text
 } from "native-base";
 import { SocialIcon } from "react-native-elements";
@@ -18,7 +19,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Button,
   Alert,
   AsyncStorage
 } from "react-native";
@@ -163,7 +163,7 @@ export default class LoginScreen extends Component {
   iosSignIn =  () => {
 
     Google.logInAsync({
-      iosClientId: '959826721453-9ee4bq4h7uvantvbeoj6da3lr91do8oa.apps.googleusercontent.com',
+      iosClientId: '627922002233-n60g2p0l401983n42udciki4l7lcpc2q.apps.googleusercontent.com',
     }
       // let redirectUrl = AuthSession.getRedirectUrl();
     // let result = await AuthSession.startAsync({
@@ -178,22 +178,23 @@ export default class LoginScreen extends Component {
       // client_id=${appId}`.replace(/\s+/g, ''),
     )
       .then(info => {
+        console.log(info)
         let obj = {
           id: info.user.id,
           name: info.user.name,
-          First_name: info.user.given_name,
-          Last_name: info.user.family_name,
-          verified: info.user.verified_email,
+          First_name: info.user.givenName,
+          Last_name: info.user.familyName,
+          verified: info.user.email,
           email: info.user.email,
-          link: info.user.link,
-          picture: { data: { url: info.user.picture } }
+          link: info.user.email,
+          picture: { data: { url: info.user.photoUrl } }
         };
         this.props.onLogin(obj);
         const api = Api.create();
 
         api
           .postUserData({
-            token: info.credentials.id_token,
+            token: info.idToken,
             authType: "google"
           })
           .then(response => {
@@ -212,8 +213,8 @@ export default class LoginScreen extends Component {
   }
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <TouchableOpacity>
+      <View style={styles.body}>
+        {/* <TouchableOpacity>
           <Button
             title="Sign In With Facebook"
             style={{ backgroundColor: "blue" }}
@@ -221,27 +222,37 @@ export default class LoginScreen extends Component {
               this.fbSignIn();
             }}
           />
-        </TouchableOpacity>
-
-        <TouchableOpacity>
+        </TouchableOpacity> */}
+        <Image source={require('../../../assets/icons/odycity.png')}
+          style={styles.logo}
+          fadeDuration={1000} />
+        <View style={styles.center}>
           <Button
-            title="Sign In With Google"
-            style={{ backgroundColor: "red" }}
             onPress={() => {
               this.iosSignIn();
             }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
+            style={styles.googleButton}>
+            <Text>Sign in with Google</Text>
+          </Button>
+        </View>
+        {/* <TouchableOpacity>
           <Button
-            title="Sign In With Dev"
             style={{ backgroundColor: "red" }}
             onPress={() => {
               this.blank();
+            }}>
+            <Text>Sign in with dev mode</Text>
+            </Button>
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity>
+          <Button
+            title="Image Picker"
+            style={{ backgroundColor: "red" }}
+            onPress={() => {
+              this.newImage();
             }}
           />
-        </TouchableOpacity>
-        
+        </TouchableOpacity> */}
       </View>
     );
   }
