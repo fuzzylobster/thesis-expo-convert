@@ -228,9 +228,9 @@ export default class MapViewer extends Component {
             last4sqCall: new Date()
           });
           this.props.set_recommendations(this.state.recommendations);
-          console.log(this.state.recommendations);
+          // console.log(this.state.recommendations);
         }
-        console.log(this.props.mapRecommendations);
+        // console.log(this.props.mapRecommendations);
         this.setState({ lookingFor: null });
       })
       .catch(err => console.log(err));

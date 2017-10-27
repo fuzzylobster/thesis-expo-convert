@@ -44,17 +44,17 @@ export default class display extends Component {
     super(props);
     this.state = {
       coords: [],
+
     };
   }
-
   newImage() {
-    ImagePicker.launchCameraAsync( response => {
+    console.log(this.props.RouteID)
+    ImagePicker.launchCameraAsync().then( response => {
       const image = {
         uri: response.uri,
         type: "image/jpeg",
         name: "myImage" + "-" + Date.now() + ".jpg",
-        route:this.props.route.name,
-        userID: this.props.userID,
+        
       };
       const imgBody = new FormData();
       imgBody.append("image", image);
@@ -62,8 +62,21 @@ export default class display extends Component {
       api
         .postUserPhoto(imgBody)
         .then(res => {
+          // console.log(res);
+          api.postPhotoToRoute(res.data.imageUrl, this.props.RouteID)
           const source = { uri: res.imageUrl, isStatic: true };
-          console.log(res);
+          const photoData = {
+            url: res.data.imageUrl,
+            userId: this.props.userID,
+            routeId: this.props.RouteID,
+            ispublic: true
+          }
+          api.postPhotoToDB(photoData).then(success => {
+            console.log(success)
+          }).catch(error => {
+            console.log(error);
+          }
+          )
         })
         .catch(error => {
           console.error(error);
@@ -134,8 +147,12 @@ export default class display extends Component {
       .then(fetch.throwErrors)
       .then(res => res.json())
       .then(json => {
-        console.log('foursquareQuery:', json.response.venue.location);
+        //console.log('foursquareQuery:', json.response.venue.location);
         this.potentialGeofence = json.response.venue.location.distance;
+        if (this.state.firstRender) {
+          this.props.originalDistance = json.response.venue.location.distance;
+          this.setState({firstRender: false})
+        }
         console.log('geofence', this.potentialGeofence)
         if (this.potentialGeofence <= 50) {
 
@@ -238,7 +255,7 @@ export default class display extends Component {
                       let badgeName = this.props.waypoint.name
                       this.props.navigation.navigate('ARContainer', {
                         refresh: () => {
-                          this.setState({ coords: [] })
+                          this.setState({ coords: [], firstRender: true })
                           this.getDirections(
                             `"${this.props.loc.latitude}, ${this.props.loc.longitude}"`,
                             `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location.lng}"`);
@@ -272,7 +289,7 @@ export default class display extends Component {
           </Content>
         <Footer>
           <FooterTab>
-            <Button onPress={this.newImage}>
+            <Button onPress={this.newImage.bind(this)}>
               <Icon name="camera" />
             </Button>
           </FooterTab>

@@ -12,7 +12,7 @@ import {
   Text
 } from "native-base";
 import { SocialIcon } from "react-native-elements";
-import {ImagePicker, AuthSession} from "expo";
+import {ImagePicker, AuthSession, Google} from "expo";
 import {
   Platform,
   View,
@@ -119,11 +119,13 @@ export default class LoginScreen extends Component {
       });
   }
   googleSignIn() {
+    let redirectUrl = AuthSession.getRedirectUrl();
+    
     google({
       appId:
       "959826721453-9ee4bq4h7uvantvbeoj6da3lr91do8oa.apps.googleusercontent.com",
       callback:
-      "com.googleusercontent.apps.959826721453-9ee4bq4h7uvantvbeoj6da3lr91do8oa:/oauth2redirect"
+      encodeURIComponent(redirectUrl)
     })
       .then(info => {
         let obj = {
@@ -158,14 +160,23 @@ export default class LoginScreen extends Component {
         this.setState({ user: { error: error } });
       });
   }
-  iosSignIn = () => {
-    let redirectUrl = AuthSession.getRedirectUrl();
-    let result = AuthSession.startAsync({
-      authUrl:
-      `https://accounts.google.com/o/oauth2/v2/auth` +
-      `&client_id=959826721453-9ee4bq4h7uvantvbeoj6da3lr91do8oa.apps.googleusercontent.com` +
-      `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
-    })
+  iosSignIn =  () => {
+
+    Google.logInAsync({
+      iosClientId: '959826721453-9ee4bq4h7uvantvbeoj6da3lr91do8oa.apps.googleusercontent.com',
+    }
+      // let redirectUrl = AuthSession.getRedirectUrl();
+    // let result = await AuthSession.startAsync({
+    //   authUrl:
+    //   `https://accounts.google.com/o/oauth2/v2/auth` +
+    //   `&client_id=959826721453-9ee4bq4h7uvantvbeoj6da3lr91do8oa.apps.googleusercontent.com` +
+    //   `&redirect_uri=${encodeURIComponent(redirectUrl)}`
+
+      //   `${url}?scope=${encodeURIComponent(scope)}&
+      // redirect_uri=${encodeURIComponent(callback)}&
+      // response_type=${responseType}&
+      // client_id=${appId}`.replace(/\s+/g, ''),
+    )
       .then(info => {
         let obj = {
           id: info.user.id,

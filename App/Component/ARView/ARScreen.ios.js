@@ -44,10 +44,13 @@ xPosition: 0});
       if (this.props.currentStopIndex === this.props.currentRoute.length - 1) {
         this.routeIsComplete = true;
         this.props.addBadge(this.props.currentStop.name);
-        this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name));
+        this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name), this.props.user.id);
+        this.props.updateMiles(this.props.LegDistance / 1609, this.props.user.id);
+      
       } else {
       this.props.addBadge(this.props.currentStop.name);
-      this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name));
+      this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name), this.props.user.id);
+        this.props.updateMiles(this.props.LegDistance / 1609, this.props.user.id);
       
 
         this.props.updateStop(this.props.currentRoute, this.props.currentStopIndex + 1);
@@ -56,8 +59,7 @@ xPosition: 0});
       if (this.routeIsComplete){
         alert(`Congratulations! You've finished the route and earned ${this.props.currentRoute.length} badges along the way.`)
         
-        this.props.updateMiles(this.props.routeDistance / 1609);
-        this.props.endRoute(this.props.advCount + 1);
+        this.props.endRoute(this.props.advCount + 1, this.props.user.id);
         this.props.navigation.dispatch(NavigationActions.reset({
           index: 0,
           actions: [

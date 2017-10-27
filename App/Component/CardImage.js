@@ -42,7 +42,7 @@ export default class CardImage extends Component {
             </CardItem>
             <CardItem cardBody>
               <Image
-                source={{ uri: this.props.adventure.cover }}
+                source={{ uri: this.props.adventure.photoURL }}
                 style={{ height: this.props.height, width: null, flex: 1 }}
               />
             </CardItem>
@@ -90,7 +90,7 @@ export default class CardImage extends Component {
               this.props.downloadedAdventure,
               <CardItem style={styles.buttonContainer}>
                 <Button style={styles.selectButton} onPress={() => {
-                  this.props.setAdventure(this.props.downloadedAdventure);
+                  this.props.setAdventure(this.props.downloadedAdventure, this.props.user.id);
                   this.props.navigation.navigate('testContainer')
                 
                 }}>

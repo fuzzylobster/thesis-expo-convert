@@ -23,7 +23,7 @@ export default class ProfilePhotos extends Component {
     this.props.photos.forEach(function(photo, index) {
       combinedPhotos.push(
         {
-          image: photo.image,
+          image: photo.url,
           key: index
         }
       );

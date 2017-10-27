@@ -25,33 +25,46 @@ const create = (baseURL = "http://889062c7.ngrok.io/") => {
   });
 
   const postUserPhoto = imgBody => apiUpload.post("/image-upload", imgBody);
+  const postPhotoToDB = photoData => api.post("photos", photoData);
+  const postPhotoToRoute = (photoURL, RouteID) => api.patch(`route/${RouteID}`, {
+    photoURL: photoURL
+  })
+  const downloadUserPhotos = (userID) => api.get(`photos?userId=${userID}`).then(response => {
+    console.log(response.data);
+    return response.data;
+  })
   const postUserData = user => api.post("/users", user);
   const findUserData = query =>
     api.get(`/users?googleId=${query}`).then(response => {
       console.log(response);
       return response.data;
     });
-  const saveRoute = route => api.post("/route", route); 
-  const addBadge = (badges, userID) => api.patch(`users/1`, {
+  const saveRoute = route => api.post("/route", route).then(successfulData => {
+    console.log(successfulData.data);
+    return successfulData.data;
+  }) ; 
+  const addBadge = (badges, userID) => api.patch(`users/${userID}`, {
     badges: badges
   });
 
-  const endRoute = (newAdvCount, userID) => api.patch(`users/1`, {
+  const endRoute = (newAdvCount, userID) => api.patch(`users/${userID}`, {
     advCounter: newAdvCount
   });
 
-  const saveCities = newCities => api.patch(`users/1`, {
+  const saveCities = (newCities, userID) => api.patch(`users/${userID}`, {
     cities: newCities
   });
 
-  const updateMiles = newMiles => api.patch('users/1', {
+  const updateMiles = (newMiles, userID) => api.patch(`users/${userID}`, {
     miles: newMiles
   });
 
-  const downloadAdventures = () => api.get('route').then(response => {
-    // console.log(response);
-    return response.data.data;
-  })
+  const downloadUserAdventures = (userID) => api.get(`route?createdby=${userID}`);
+  
+  const downloadAdventures = () => api.get('route');
+  
+
+
   return {
     postUserData,
     findUserData,
@@ -61,7 +74,11 @@ const create = (baseURL = "http://889062c7.ngrok.io/") => {
     endRoute,
     saveCities,
     updateMiles,
-    downloadAdventures
+    downloadAdventures,
+    downloadUserAdventures,
+    downloadUserPhotos,
+    postPhotoToDB,
+    postPhotoToRoute
   };
 
 };

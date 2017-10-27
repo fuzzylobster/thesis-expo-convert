@@ -4,7 +4,8 @@ import {
   Current_location,
   Current_Stop,
   Gps_Marker,
-  Marker_locations
+  Marker_locations,
+  leg_Distance
 } from "../redux/actions";
 import display from "../Component/MapView/display";
 
@@ -15,7 +16,9 @@ const mapStateToProps = state => {
     waypoint: state.people.CurrentStop,
     gps: state.people.gps,
     markers: state.people.adventure.markerLocations,
-    userID: state.people.user.id
+    userID: state.people.user.id,
+    RouteID: state.people.RouteID,
+    LegDistance: state.people.LegDistance
   };
 };
 
@@ -38,6 +41,9 @@ const mapDispatchToProps = dispatch => {
     },
     add_marker: gps => {
       dispatch(Marker_locations(gps));
+    },
+    leg_Distance: distance => {
+      dispatch(leg_Distance(distance))
     }
   };
 };

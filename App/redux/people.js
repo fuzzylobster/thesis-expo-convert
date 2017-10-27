@@ -55,7 +55,7 @@ const initialState = {
   },
   pastAdventures: [
     {
-      cover:
+      photoURL:
         "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
       city: "New Orleans, LA",
       likes: 12,
@@ -64,7 +64,7 @@ const initialState = {
       badges: ["Trail Maker"]
     },
     {
-      cover:
+      photoURL:
         "http://cdn1.theodysseyonline.com/files/2015/11/21/635837430566856627-1324495185_tndkklvnxeoprzcusexl.jpg",
       city: "New Orleans, LA",
       likes: 35,
@@ -130,21 +130,21 @@ const initialState = {
   adventureType: [
     {
       city: "New Orleans, La",
-      cover:
+      photoURL:
       "http://cdn1.theodysseyonline.com/files/2015/11/21/635837430566856627-1324495185_tndkklvnxeoprzcusexl.jpg",
       name: "Plot Your Own Path",
       type: "Choose Your Points of interest and Events."
     },
     {
       city: "New Orleans, La",
-      cover:
+      photoURL:
       "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
       name: "Follow my footsteps",
       type: "Follow a Path Created by a fellow user"
     },
     {
       city: "New Orleans, La",
-      cover:
+      photoURL:
       "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
       name: "LeI think Ill start here.",
       type: "Choose your starting point and let us handle the rest."
@@ -155,7 +155,9 @@ const initialState = {
   ],
   token: "",
   miles: 0,
-  recommendations: []
+  recommendations: [],
+  RouteID: 0,
+  LegDistance: 0
 };
 
 export default function peopleReducer(state = initialState, action) {
@@ -227,6 +229,22 @@ export default function peopleReducer(state = initialState, action) {
     return Object.assign({}, state, {
       downloadedAdventures: action.Adventures
     });
+    case "SET_RouteID":
+      return Object.assign({}, state, {
+        RouteID: action.RouteID
+      });
+    case "SET_User_Photos":
+      return Object.assign({}, state, {
+        photos: action.photos
+      });
+    case "SET_Leg_Distance":
+      return Object.assign({}, state, {
+        LegDistance: action.distance
+      });
+    case "SET_Past_Adventures":
+      return Object.assign({}, state, {
+        pastAdventures: state.pastAdventures.concat(action.pastAdventures)
+      });
     default:
       return state;
   }

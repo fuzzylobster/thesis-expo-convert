@@ -15,7 +15,9 @@ const mapStateToProps = state => {
     advCount: state.people.AdvCounter,
     miles: state.people.miles,
     routeDistance: state.people.adventure.miles,
-    userPicUrl: state.people.user.picture.data.url
+    userPicUrl: state.people.user.picture.data.url,
+    user: state.people.user,
+    LegDistance: state.people.LegDistance
   };
 };
 
@@ -30,23 +32,23 @@ const mapDispatchToProps = dispatch => {
       // });
       
     },
-    updateBadges: (badges) => {
+    updateBadges: (badges, userID) => {
       let api = Api.create();
-      api.addBadge(badges);
+      api.addBadge(badges, userID);
     },
     updateStop: (route, nextIndex) => {
       
         dispatch(Current_Stop(route[nextIndex]))
       
     },
-    updateMiles: (miles) => {
+    updateMiles: (miles, userID) => {
       let api = Api.create();
-      api.updateMiles(miles);
+      api.updateMiles(miles, userID);
       dispatch(Set_miles(miles))
     },
-    endRoute: (newAdvCount) => {
+    endRoute: (newAdvCount, userID) => {
       let api = Api.create();
-      api.endRoute(newAdvCount);
+      api.endRoute(newAdvCount, userID);
       dispatch(Download_Adventures([]));
       dispatch(Set_Adv_Counter(newAdvCount));
       

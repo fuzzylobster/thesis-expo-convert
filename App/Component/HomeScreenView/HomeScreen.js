@@ -27,6 +27,12 @@ export default class HomeScreen extends Component {
     super(props);
   }
   componentDidMount() {
+    let api = Api.create();
+    api.downloadUserPhotos(this.props.user.id).then(photos => {
+      console.log('success photos', photos);
+      this.props.Update_User_Photos(photos.data);
+    });
+    this.props.Download_User_Adventures(this.props.user.id);
     getJWT().then(jwt => {
       // Decode
       const decoded = jwtdecode(jwt);
@@ -40,6 +46,8 @@ export default class HomeScreen extends Component {
         this.props.set_Badges(Response.data[0].badges);
         this.props.set_miles(Response.data[0].miles || 0);
         //Response.data[0].id
+      }).then(() => {
+        
       }).catch(err => {
         console.error('Error:', err);
       });

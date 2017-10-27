@@ -96,3 +96,31 @@ export function Download_Adventures(Adventures) {
     Adventures
   }
 }
+
+export function Update_RouteID(RouteID) {
+  return {
+    type: "SET_RouteID",
+    RouteID
+  }
+}
+
+export function Update_User_Photos(photos) {
+  return {
+    type: "SET_User_Photos",
+    photos
+  }
+}
+
+export function leg_Distance(distance) {
+  return {
+    type: "SET_Leg_Distance",
+    distance
+  }
+}
+
+export function Update_Past_Adventures(pastAdventures) {
+  return {
+    type: "SET_Past_Adventures",
+    pastAdventures
+  }
+}

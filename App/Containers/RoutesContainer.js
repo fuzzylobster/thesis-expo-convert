@@ -6,7 +6,8 @@ import {
   Gps_Marker,
   Marker_locations,
   Set_cities,
-  Recommendations
+  Recommendations,
+  Update_RouteID,
 } from "../redux/actions";
 import Api from '../Services/Api'
 import RouteViewer from "../Component/MapView/RouteViewer";
@@ -49,15 +50,16 @@ const mapDispatchToProps = dispatch => {
           cities: adventure.cities
         };
 
-        const api2 = Api.create();
+        
 
         dispatch(Set_cities(adventure.cities));
 
-        api2.saveCities(adventure.cities);
+        api.saveCities(adventure.cities);
 
         api.saveRoute(newAdventure).then(
-          success => {
-            console.log(success);
+          routeData => {
+            console.log("routeData", routeData);
+            dispatch(Update_RouteID(routeData.id));
           },
           error => {
             console.log(error);
