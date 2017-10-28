@@ -7,7 +7,9 @@ import { Select_user,
     Download_Adventures,
      Current_adventure,
     Update_User_Photos,
-  Update_Past_Adventures } from "../redux/actions";
+  Update_Past_Adventures,
+  Set_cities 
+} from "../redux/actions";
 import HomeScreen from "../Component/HomeScreenView/HomeScreen";
 import Api from "../Services/Api"
 
@@ -37,10 +39,13 @@ const mapDispatchToProps = dispatch => {
     set_miles: miles => {
       dispatch(Set_miles(miles));
     },
+    set_cities: (cities) => {
+      dispatch(Set_cities(cities));
+    },
     Download_Adventures: () => {
       const api = Api.create();
       api.downloadAdventures().then(response => {
-        console.log(adventures);
+        console.log('adventures',adventures);
         let adventures = response.data.data;
         dispatch(Download_Adventures(adventures))
       })
@@ -65,6 +70,9 @@ const mapDispatchToProps = dispatch => {
     },
     Update_User_Photos: (photos) => {
       dispatch(Update_User_Photos(photos));
+    },
+    set_user: (user) => {
+      dispatch(Select_user(user));
     }
   };
 };

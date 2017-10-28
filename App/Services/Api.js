@@ -36,7 +36,7 @@ const create = (baseURL = "http://889062c7.ngrok.io/") => {
   const postUserData = user => api.post("/users", user);
   const findUserData = query =>
     api.get(`/users?googleId=${query}`).then(response => {
-      console.log(response);
+      console.log("findUserData", response);
       return response.data;
     });
   const saveRoute = route => api.post("/route", route).then(successfulData => {

@@ -131,12 +131,12 @@ export default class LoginScreen extends Component {
         let obj = {
           id: info.user.id,
           name: info.user.name,
-          First_name: info.user.given_name,
-          Last_name: info.user.family_name,
-          verified: info.user.verified_email,
+          First_name: info.user.givenName,
+          Last_name: info.user.familyName,
+          verified: "True",
           email: info.user.email,
-          link: info.user.link,
-          picture: { data: { url: info.user.picture } }
+          link: info.user.email,
+          picture: { data: { url: info.user.photoUrl } }
         };
         this.props.onLogin(obj);
         const api = Api.create();
@@ -148,7 +148,7 @@ export default class LoginScreen extends Component {
           })
           .then(response => {
             this.props.stop(response);
-            // console.log(JSON.stringify(response.data));
+            console.log("Initial login",JSON.stringify(response.data));
             this._onValueChange(STORAGE_KEY, response.data.jwtToken);
           });
 
@@ -163,7 +163,7 @@ export default class LoginScreen extends Component {
   iosSignIn =  () => {
 
     Google.logInAsync({
-      iosClientId: '627922002233-n60g2p0l401983n42udciki4l7lcpc2q.apps.googleusercontent.com',
+      iosClientId: '959826721453-spi396f9irfbijrpt46mbfgcknr2cb7o.apps.googleusercontent.com',
     }
       // let redirectUrl = AuthSession.getRedirectUrl();
     // let result = await AuthSession.startAsync({
@@ -184,7 +184,7 @@ export default class LoginScreen extends Component {
           name: info.user.name,
           First_name: info.user.givenName,
           Last_name: info.user.familyName,
-          verified: info.user.email,
+          verified: "True",
           email: info.user.email,
           link: info.user.email,
           picture: { data: { url: info.user.photoUrl } }
@@ -199,8 +199,10 @@ export default class LoginScreen extends Component {
           })
           .then(response => {
             this.props.stop(response);
-            // console.log(JSON.stringify(response.data));
-            this._onValueChange(STORAGE_KEY, response.data.jwtToken);
+            console.log("INITIAL LOGIN", JSON.stringify(response.data));
+            this._onValueChange(STORAGE_KEY, response.data.data.jwtToken);
+          }).catch(error => {
+            console.log('error initial login', error)
           });
 
         if (this.props.user.name) {

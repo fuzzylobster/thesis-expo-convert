@@ -17,9 +17,17 @@ import PlaceSearch from "./PlaceSearch";
 import styles from "./../Styles/HomeScreenStyle";
 import OdysseyList from "./OdysseyList";
 export default class RouteViewer extends Component {
+  tempAdventureNames = [
+    "Trailblazer",
+    "NOLA Navigator",
+    "Jake's Jog", 
+    "Violet's Vacation",
+    "Aaron's AdventureTime"
+  ]
+  tempAdventureName = this.tempAdventureNames[Math.floor(Math.random() * 5)]
   state = {
     tempAdventure: {
-      name: "tempAdventure",
+      name: this.tempAdventureName,
       markerLocations: [],
       cities: [],
       miles: 0,
@@ -38,7 +46,7 @@ export default class RouteViewer extends Component {
     // console.log(JSON.stringify(newMarker));
     this.setState({
       tempAdventure: {
-        name: "tempAdv",
+        name: this.state.tempAdventure.name,
         markerLocations: this.state.tempAdventure.markerLocations.concat(
           newMarker
         ),
@@ -72,14 +80,14 @@ export default class RouteViewer extends Component {
           <OdysseyList
             navigation={this.props.navigation}
             setAdventure={() => {
-              this.props.set_Adventure(this.state.tempAdventure, true, 1)
+              this.props.set_Adventure(this.state.tempAdventure, true, this.props.user.id)
               }}
             list={this.state.tempAdventure}
             enableEmptySections={true}
             deleteMarker={newMarker => {
               this.setState({
                 tempAdventure: {
-                  name: "tempAdv",
+                  name: this.state.tempAdventure.name,
                   markerLocations: newMarker,
                   cities: this.state.tempAdventure.cities,
                   miles: this.state.tempAdventure.miles,

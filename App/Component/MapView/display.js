@@ -120,13 +120,18 @@ export default class display extends Component {
           longitudeDelta: LONGITUDE_DELTA
         };
         this.props.setLocation(lastRegion);
-        this.props.setGps(lastRegion);
+        this.props.setGps({
+          latitude: lastRegion.latitude,
+          longitude: lastRegion.longitude
+        });
         this.onRegionChange(lastRegion, position.coords.accuracy)
 
         this.getDirections(
           `"${position.coords.latitude}, ${position.coords.longitude}"`,
           `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location.lng}"`
         );
+
+        
         
       });
   }
@@ -149,9 +154,9 @@ export default class display extends Component {
       .then(json => {
         //console.log('foursquareQuery:', json.response.venue.location);
         this.potentialGeofence = json.response.venue.location.distance;
-        if (this.state.firstRender) {
-          this.props.originalDistance = json.response.venue.location.distance;
-          this.setState({firstRender: false})
+        if (this.props.LegDistance < this.potentialGeofence) {
+          this.props.leg_Distance(this.potentialGeofence);
+          
         }
         console.log('geofence', this.potentialGeofence)
         if (this.potentialGeofence <= 50) {
@@ -160,14 +165,18 @@ export default class display extends Component {
         this.isInRadiusText = "In range! Click me to go to the AR Event!"
         } else {
           this.isInRadius = false;
-          this.isInRadiusText = "Keep looking!"
+          this.isInRadiusText = `Keep looking! ${this.potentialGeofence} meters away...`
         }
 
       })
 
     this.setState({
       mapRegion: region,
-      gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy
+      gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy,
+      gps: {
+        latitude: region.latitude,
+        longitude: region.longitude
+      }
     });
   }
 
@@ -224,7 +233,7 @@ export default class display extends Component {
           <MapView style={styles.map} initialRegion={this.state.mapRegion}>
 
               <MapView.Circle
-                center={this.props.gps}
+                center={this.state.gps}
                 radius={this.state.gpsAccuracy * 1.5}
                 strokeWidth={0.5}
                 strokeColor="rgba(66, 180, 230, 1)"
@@ -232,7 +241,7 @@ export default class display extends Component {
               />
 
               <MapView.Circle
-                center={this.props.gps}
+                center={this.state.gps}
                 radius={3}
                 strokeWidth={0.5}
                 strokeColor="rgba(66, 180, 230, 1)"
@@ -251,7 +260,7 @@ export default class display extends Component {
                 >
               <MapView.Callout
                   onPress={() => {
-                    if (this.isInRadius === true) {
+                     if (this.isInRadius === true) { 
                       let badgeName = this.props.waypoint.name
                       this.props.navigation.navigate('ARContainer', {
                         refresh: () => {
@@ -260,14 +269,14 @@ export default class display extends Component {
                             `"${this.props.loc.latitude}, ${this.props.loc.longitude}"`,
                             `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location.lng}"`);
                           this.render();
-                        }
+                          }  
                       })
-                    }
+                     } 
                   }
                   }
               >
               <Text>{this.isInRadiusText}</Text>
-              <Text>{this.potentialGeofence}</Text>
+              
               
 
                 <Button

@@ -70,11 +70,11 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <Grid>
+      <Grid style={styles.headBody}>
         <Row>
           <Col size={75}>
             <Row style={styles2.signedIn}>
-              <Text>You are signed in as {this.props.user.name}</Text>
+              <Text style={styles.signedInTxt}>You are signed in as {this.props.user.name}</Text>
             </Row>
             <Row style={styles2.buttonsRow}>
               <Button
@@ -94,13 +94,13 @@ export default class HomeScreen extends Component {
               >
                 <Text style={styles2.buttonText}>Log Out</Text>
               </Button>
-              <Button
+              {/* <Button
                 style={styles2.buttonStyle}
                 onPress={this._showToken}
                 title="Experiment"
               >
                 <Text style={styles2.buttonText}>Experiment</Text>
-              </Button>
+              </Button> */}
             </Row>
           </Col>
           <Col size={25} style={styles2.imageCol}>
@@ -178,7 +178,8 @@ const styles2 = StyleSheet.create({
     paddingRight: 5,
     height: 30,
     margin: 5,
-    marginTop: 0
+    marginTop: 0,
+    backgroundColor: "#6c1a1a"
   },
 
   buttonText: {

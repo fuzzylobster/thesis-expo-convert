@@ -31,7 +31,7 @@ export default class HomeScreen extends Component {
             {this.props.adventures.map((adventure, i) => ( 
               
                 <CardImage 
-                height={200} 
+                height={215} 
                 style={styles.slide} 
                 adventure={adventure} 
                 key={i} 
@@ -43,13 +43,7 @@ export default class HomeScreen extends Component {
             ))} 
       </Swiper>
         </Row>
-        <Row style={styles.select} size={10}>
-          <Button style={styles.selectButton} onPress={() => {
-              this.props.navigation.navigate('RoutesContainer')
-            }}>
-            <Text style={styles.selectText}>I like this one!</Text>
-          </Button>
-        </Row>
+        
       </Grid>
     );
     } else {
@@ -66,7 +60,7 @@ export default class HomeScreen extends Component {
               {this.props.downloadedAdventures.map((adventure, i) => (
 
                 <CardImage
-                  height={200}
+                  height={215}
                   style={styles.slide}
                   downloadedAdventure={adventure}
                   adventure={adventure}
@@ -79,13 +73,13 @@ export default class HomeScreen extends Component {
               ))}
             </Swiper>
           </Row>
-          <Row style={styles.select} size={10}>
+          {/* <Row style={styles.select} size={10}>
             <Button style={styles.selectButton} onPress={() => {
               this.props.navigation.navigate('RoutesContainer')
             }}>
               <Text style={styles.selectText}>I like this one!</Text>
             </Button>
-          </Row>
+          </Row> */}
         </Grid>
       );
     }
@@ -95,13 +89,18 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   greetingRow: {
     justifyContent: 'space-around',
-    alignItems: 'flex-end'
+    alignItems: 'center'
   },
   greetingText: {
-    fontSize: 25
+    fontSize: 25,
+        color: "#acc878",
+    fontWeight: "bold",
+    textShadowColor: "#000000",
+    textShadowOffset: { width: 1, height: 1 }
   },
   greetingText2: {
-    fontSize: 15
+    fontSize: 15,
+    color: "#000000"
   },
   cardStyle: {
     width: 75
@@ -114,7 +113,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   selectButton: {
-    padding: 10
+    padding: 10,
+    backgroundColor: "#acc878"
+
   },
   selectText: {
     color: '#FFFFFF',

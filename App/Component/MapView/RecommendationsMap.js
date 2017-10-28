@@ -25,6 +25,7 @@ import {
 import styles from "./styles";
 import Recommendation from "./Recommendation";
 import CardImage from "./../CardImage";
+import CustomCallout from "./CustomCallout";
 const renderIf = function (condition, content) {
   if (condition) {
     //console.log(this.props.recommendations);
@@ -75,7 +76,7 @@ export default class RecommendationsMap extends Component {
               }}
             >
               <MapView.Callout
-                tooltip={true}
+                tooltip={false}
                 onPress={() =>{
                   const tip = marker.tips[0] ? marker.tips[0].text : "";
                   this.props.setMarker(
@@ -93,9 +94,13 @@ export default class RecommendationsMap extends Component {
                 }
               >
                 <View>
-                  <Button>
-                    <Text>Select me</Text>
-                  </Button>
+                  <CustomCallout
+                    name={marker.venue.name}
+                    photo={photo}
+                    tip={marker.tips[0] ? marker.tips[0].text : ''}
+                    mark={marker}
+                    user={this.props.user}
+                  />
                 </View>
               </MapView.Callout>
             </MapView.Marker>

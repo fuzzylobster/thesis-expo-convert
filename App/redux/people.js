@@ -136,18 +136,11 @@ const initialState = {
       type: "Choose Your Points of interest and Events."
     },
     {
-      city: "New Orleans, La",
+      city: "New Orleans, LA",
       photoURL:
       "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
-      name: "Follow my footsteps",
+      name: "Follow My Footsteps",
       type: "Follow a Path Created by a fellow user"
-    },
-    {
-      city: "New Orleans, La",
-      photoURL:
-      "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
-      name: "LeI think Ill start here.",
-      type: "Choose your starting point and let us handle the rest."
     }
   ],
   downloadedAdventures: [
@@ -219,7 +212,7 @@ export default function peopleReducer(state = initialState, action) {
       });
     case "SET_miles":
       return Object.assign({}, state, {
-        miles: state.miles + action.miles
+        miles: action.miles
       });
     case "SET_Recommendations":
     return Object.assign({}, state, {

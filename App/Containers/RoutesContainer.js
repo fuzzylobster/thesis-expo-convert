@@ -54,7 +54,7 @@ const mapDispatchToProps = dispatch => {
 
         dispatch(Set_cities(adventure.cities));
 
-        api.saveCities(adventure.cities);
+        api.saveCities(adventure.cities, id);
 
         api.saveRoute(newAdventure).then(
           routeData => {

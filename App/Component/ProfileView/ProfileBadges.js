@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Platform, Text, View, TouchableHighlight } from "react-native";
+import { Col, Row, Grid } from "react-native-easy-grid";
+
 
 import styles from "./../Styles/ProfileBadgesStyle";
 
@@ -33,31 +35,32 @@ export default class ProfileBadges extends Component {
   }
   render() {
     return (
-      <View style={[styles.bar, styles.badgeContainer]}>
-        <View style={[styles.barItem, styles.barSeparator]}>
-          <Text style={styles.barTop}>{this.props.advCounter}</Text>
-          {/** Adventures completed*/}
-          <Text style={styles.barBottom}>Adventures completed</Text>
-        </View>
-        <View style={[styles.barItem, styles.barSeparator]}>
-          <Text style={styles.barTop}>{this.milesTrekked()}</Text>
-          {/** Miles trekked*/}
-          <Text style={styles.barBottom}>Miles Trekked</Text>
-        </View>
-        <View style={[styles.barItem, styles.barSeparator]}>
-          <Text style={styles.barTop}>{this.cities()}</Text>
-          {/** Cities Conquered*/}
-          <Text style={styles.barBottom}>Cities Conquered</Text>
-        </View>
-        <View style={[styles.barItem, styles.barSeparator]}>
-
-        
-          <Text style={styles.barTop}>{this.badges()}</Text>
-          {/** Badges Completed*/}
-          <Text style={styles.barBottom}>Badges Earned</Text>
-        
-        </View>
-      </View>
+      <Grid style={styles.badgeContainer}>
+        <Row>
+          <Col>
+            <View>
+              <Text style={styles.text}>{this.props.advCounter} Adventures completed</Text>
+            </View>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <View>
+              <Text style={styles.text}>{this.milesTrekked()} Miles Trekked</Text>
+            </View>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Text style={styles.text}>{this.cities()} Cities Conquered</Text>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Text style={styles.text}>{this.badges()} Badges Earned</Text>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

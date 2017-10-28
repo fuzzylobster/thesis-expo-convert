@@ -33,6 +33,7 @@ const mapDispatchToProps = dispatch => {
       
     },
     updateBadges: (badges, userID) => {
+      console.log('updating profile badges', badges);
       let api = Api.create();
       api.addBadge(badges, userID);
     },
@@ -41,10 +42,12 @@ const mapDispatchToProps = dispatch => {
         dispatch(Current_Stop(route[nextIndex]))
       
     },
-    updateMiles: (miles, userID) => {
+    updateMiles: (newMiles, oldMiles, userID) => {
+      console.log('trying to update miles', newMiles, oldMiles)
+      let combinedMiles = newMiles + oldMiles;
       let api = Api.create();
-      api.updateMiles(miles, userID);
-      dispatch(Set_miles(miles))
+      api.updateMiles(combinedMiles, userID);
+      dispatch(Set_miles(combinedMiles))
     },
     endRoute: (newAdvCount, userID) => {
       let api = Api.create();

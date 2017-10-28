@@ -58,40 +58,68 @@ export default class ProfileView extends Component {
             </Text>
           </View>
         </Modal>
-        <Row size={30}>
+        <Row size={20}>
           <View style={styles.container}>
-            <ProfileHeader
-              user={this.props.user}
-              background={this.props.background}
-            />
-          </View>
-        </Row>
-        <Row  size={10}>
-            <View style={styles.container}>
-
+            <Grid>
+              <Row size={25} style={styles.topHeader}>
+                <Col>
+                  <Text style={styles.topHeader}>{this.props.user.name}</Text>
+                </Col>
+              </Row>
+              <Row size={80} style={styles.profHeader}>
+                <Col size={35}>
+                  <ProfileHeader
+                    user={this.props.user}
+                    background={this.props.background}
+                  />
+                </Col>
+                <Col size={65}>
             <ProfileBadges  
               advCounter={this.props.advCounter} 
               badges={this.props.badges}
               miles={this.props.miles}
               cities={this.props.cities}/>
-            </View>
-
-            
+                </Col>
+              </Row>
+            </Grid>
+          </View>
         </Row>
-        <Row size={12}>
-          <View>
+        <Row size={25}>
+          <Grid>
+            <Row size={20} style={styles.header}>
+              <Col>
+                <Text style={styles.header}>Your Photos</Text>
+              </Col>
+            </Row>
+            <Row size={80} style={styles.photoContainer}>
+              <Col>
+                <View>
             <ProfilePhotos
               modalChange={this.setModalVisible.bind(this)}
               photos={this.props.photos}
               stockPhotos={this.props.stockPhotos}
             />
           </View>
+              </Col>
+            </Row>
+          </Grid>
         </Row>
-        <Row size={48}>
+        <Row size={40}>
+          <Grid>
+            <Row size={13} style={styles.header}>
+              <Col>
+                <Text style={styles.header}>Your Adventures</Text>
+              </Col>
+            </Row>
+            <Row size={87} style={styles.advs}>
+              <Col>
           <ProfilePastAdv
             user={this.props.user}
             adventures={this.props.adventures}
           />
+              </Col>
+            </Row>
+          </Grid>
         </Row>
       </Grid>
     );
