@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Button } from "react-native";
+import { Platform, StyleSheet, Text, View, Button, Image } from "react-native";
 import {
   Container,
   Header,
@@ -76,7 +76,17 @@ export default class RouteViewer extends Component {
         ref={ref => {
           this.drawer = ref;
         }}
+        styles={{
+          drawer: {
+            
+            
+            backgroundColor: 'gray'
+            
+          }
+        }}
         content={
+          
+          
           <OdysseyList
             navigation={this.props.navigation}
             setAdventure={() => {
@@ -98,6 +108,9 @@ export default class RouteViewer extends Component {
               this.setState({ test: "it Worked" });
             }}
           />
+          
+          
+          
         }
         onClose={() => this.closeDrawer()}
       >

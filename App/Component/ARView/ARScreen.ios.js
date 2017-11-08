@@ -45,12 +45,12 @@ xPosition: 0});
         this.routeIsComplete = true;
         this.props.addBadge(this.props.currentStop.name);
         this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name), this.props.user.id);
-        this.props.updateMiles(this.props.LegDistance / 1609, this.props.miles, this.props.user.id);
+        this.props.updateMiles((this.props.LegDistance / 1609).toFixed(2), this.props.miles, this.props.user.id);
       
       } else {
       this.props.addBadge(this.props.currentStop.name);
       this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name), this.props.user.id);
-        this.props.updateMiles(this.props.LegDistance / 1609, this.props.miles, this.props.user.id);
+        this.props.updateMiles((this.props.LegDistance / 1609).toFixed(2), this.props.miles, this.props.user.id);
       
 
         this.props.updateStop(this.props.currentRoute, this.props.currentStopIndex + 1);

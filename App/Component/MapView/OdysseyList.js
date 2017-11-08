@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ListView } from "react-native";
+import { ListView, Image } from "react-native";
 import {
   Container,
   Header,
@@ -9,8 +9,10 @@ import {
   List,
   ActionSheet,
   ListItem,
-  Text
+  Text,
+  View
 } from "native-base";
+import Expo from 'expo'
 const datas = [""];
 export default class OdysseyList extends Component {
   constructor(props) {
@@ -36,13 +38,24 @@ export default class OdysseyList extends Component {
     });
     return (
       <Container>
-        <Header />
+        <Header>
+          <Text>
+            Current Destinations
+          </Text>
+        </Header>
         <Content>
+        
+
           <List
+            
             enableEmptySections={true}
             dataSource={this.ds.cloneWithRows(this.props.list.markerLocations)}
             renderRow={data => (
-              <ListItem>
+              <ListItem 
+                style={{
+                  alignSelf: 'center'
+                }}
+              >
                 <Text> {data.name} </Text>
               </ListItem>
             )}
@@ -64,6 +77,9 @@ export default class OdysseyList extends Component {
             rightOpenValue={-75}
           />
           <Button
+          style={{
+            alignSelf: "stretch"
+          }}
             onPress={() => {
               if (!this.props.list.markerLocations.length) {
                 alert("You haven't made any stops yet!")
@@ -75,8 +91,11 @@ export default class OdysseyList extends Component {
               }
             }}
           >
-            <Text>Start Your Odyssey</Text>
+            <Text>Start Your Odycity!</Text>
           </Button>
+            
+            
+          
         </Content>
       </Container>
     );

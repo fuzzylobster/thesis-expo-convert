@@ -7,11 +7,12 @@ import styles from "./../Styles/ProfileBadgesStyle";
 
 export default class ProfileBadges extends Component {
   milesTrekked() {
+    console.log(this.props.miles)
     // let miles = 0;
     // for (var i = 0; i < this.props.adventures; i++) {
     //   miles += this.props.adventures[i].distance;
     // }
-    return this.props.miles.toFixed(2);
+    return this.props.miles;
   }
   cities() {
     // let numCities = [];

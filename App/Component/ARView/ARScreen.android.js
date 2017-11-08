@@ -113,16 +113,20 @@ export default class ARScreen extends React.Component {
 
 
   
-           
-          <Expo.GLView
-            {...this.panResponder.panHandlers}
-            ref={(ref) => this._glView = ref}
-            style={{
-              flex: 1, backgroundColor: 'white',
-              flexDirection: 'row',
-            }}
-            onContextCreate={this._onGLContextCreate}
-          />
+            
+            
+
+              <Expo.GLView
+                {...this.panResponder.panHandlers}
+                ref={(ref) => this._glView = ref}
+                style={{
+                  flex: 1, 
+                }}
+                onContextCreate={this._onGLContextCreate}
+              /> 
+            
+              
+          
 
         
 
@@ -141,7 +145,7 @@ _onGLContextCreate = async (gl) => {
   //   0.01,
   //   100
   // )
-  const camera = new THREE.PerspectiveCamera();
+  const camera = new THREE.PerspectiveCamera(75, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 1000);
   const renderer = ExpoTHREE.createRenderer({ gl });
   renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight);
   // scene.background = this.camera;
@@ -263,3 +267,41 @@ const styles = StyleSheet.create({
     margin: 40
   }
 });
+
+{/* <Button
+  onPress={() => {
+
+    this.props.addBadge(this.props.currentStop.name);
+    if (this.props.currentStopIndex === this.props.currentRoute.length - 1) {
+      this.routeIsComplete = true;
+    } else {
+
+      this.props.updateStop(this.props.currentRoute, this.props.currentStopIndex + 1);
+    }
+
+
+    if (this.routeIsComplete) {
+      alert(`Congratulations! You've finished the route and earned ${this.props.currentRoute.length} badges along the way.`)
+      this.props.endRoute();
+      this.props.navigation.dispatch(NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: 'HomeScreenContainer' })
+
+        ]
+      }));
+    } else {
+      this.props.navigation.state.params.refresh();
+      alert(`You've added the ${this.props.currentRoute[this.props.currentStopIndex - 1].name} badge!
+        ${this.props.currentRoute.length - (this.props.currentStopIndex)} more left for this adventure!
+      `)
+      this.props.navigation.goBack();
+    }
+
+  }}
+  style={{
+    flex: 1, backgroundColor: 'white',
+    flexDirection: 'row',
+  }}
+  title="I am AR Button"
+/> */}
