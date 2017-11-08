@@ -10,7 +10,7 @@ class RootContainer extends Component {
   render() {
     return (
       <View style={styles.applicationView}>
-        {/* <StatusBar barStyle='light-content' /> */}
+         <StatusBar hidden={true} /> 
         <Nav user={this.props.user} />
       </View>
     );

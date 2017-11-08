@@ -47,3 +47,80 @@ export function Add_Badge(badge) {
     badge
   };
 }
+
+export function Token(token) {
+  return {
+    type: "SET_Token",
+    token
+  };
+}
+
+export function Set_Adv_Counter(advCounter) {
+  return {
+    type: "SET_Adv_Counter",
+    advCounter
+  };
+}
+
+export function Set_Badges(badges) {
+  return {
+    type: "SET_Badges",
+    badges
+  };
+}
+
+export function Set_cities(cities) {
+  return {
+    type: "SET_cities",
+    cities
+  };
+}
+
+export function Set_miles(miles) {
+  return {
+    type: "SET_miles",
+    miles
+  };
+}
+
+export function Recommendations(Recommendations) {
+  return {
+    type: "SET_Recommendations",
+    Recommendations
+  }
+}
+
+export function Download_Adventures(Adventures) {
+  return {
+    type: "SET_Adventures",
+    Adventures
+  }
+}
+
+export function Update_RouteID(RouteID) {
+  return {
+    type: "SET_RouteID",
+    RouteID
+  }
+}
+
+export function Update_User_Photos(photos) {
+  return {
+    type: "SET_User_Photos",
+    photos
+  }
+}
+
+export function leg_Distance(distance) {
+  return {
+    type: "SET_Leg_Distance",
+    distance
+  }
+}
+
+export function Update_Past_Adventures(pastAdventures) {
+  return {
+    type: "SET_Past_Adventures",
+    pastAdventures
+  }
+}

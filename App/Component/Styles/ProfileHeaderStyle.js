@@ -18,17 +18,18 @@ export default StyleSheet.create({
   profilePicWrap: {
     width: 180,
     height: 180,
-    borderRadius: 100,
+    borderRadius: 180,
     borderColor: "rgba(0,0,0,0.4)",
     borderWidth: 16
   },
   profilePic: {
     flex: 1,
     width: null,
-    alignSelf: "stretch",
-    borderRadius: 100,
-    borderColor: "#fff",
-    borderWidth: 4
+    // alignSelf: "stretch",
+    borderRadius: 65,
+    borderColor: "#6c1a1a",
+    borderWidth: 5,
+    margin: 5
   },
   name: {
     marginTop: 20,

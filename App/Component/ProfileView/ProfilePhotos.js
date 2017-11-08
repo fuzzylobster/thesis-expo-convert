@@ -20,14 +20,17 @@ export default class ProfilePhotos extends Component {
 
   _camRoll() {
     let combinedPhotos = [];
-    this.props.photos.forEach(function(photo, index) {
-      combinedPhotos.push(
-        {
-          image: photo.image,
-          key: index
-        }
-      );
-    });
+    if (this.props.photos.length) {
+
+      this.props.photos.forEach(function(photo, index) {
+        combinedPhotos.push(
+          {
+            image: photo.url,
+            key: index
+          }
+        );
+      });
+    }
     if (combinedPhotos.length < 10) {
       let count = 0;
       while (combinedPhotos.length < 10) {

@@ -21,7 +21,7 @@ export default class PlaceSearch extends Component {
             this.props.setMarker({
               name: details.formatted_address,
               location: details.geometry.location
-            });
+            }, details.address_components[3].short_name, 100);
             console.log(data, details);
           }}
           getDefaultValue={() => ""}
@@ -65,6 +65,7 @@ export default class PlaceSearch extends Component {
               title="Default adventure"
               onPress={() => {
                 this.props.navigation.navigate('testContainer');
+                {/* this.props.setAdventure(); */}
               }}
             />
           )}
@@ -75,7 +76,7 @@ export default class PlaceSearch extends Component {
                 if (!this.props.tempAdventure.markerLocations.length) {
                   alert("You haven't made any stops yet!")
                 } else {
-
+                  
                   this.props.setAdventure();
                   {/* this.props.setWaypoint(); */}
                   this.props.navigation.navigate("testContainer");

@@ -16,6 +16,8 @@ export default class HomeScreen extends Component {
     super(props);
   }
   render() {
+    if (!this.props.downloadedAdventures.length) {
+
     return (
       <Grid>
         <Row style={styles.greetingRow} size={10}>
@@ -26,35 +28,79 @@ export default class HomeScreen extends Component {
         </Row>
         <Row size={70}>
           <Swiper style={styles.wrapper}>
-             {this.props.adventures.map((adventure, i) => ( 
+            {this.props.adventures.map((adventure, i) => ( 
               
-                <CardImage style={styles.slide} adventure={adventure} key={i} user={this.props.user} />
+                <CardImage 
+                height={215} 
+                style={styles.slide} 
+                adventure={adventure} 
+                key={i} 
+                user={this.props.user}
+                downloadAdventures={this.props.Download_Adventures}
+                navigation={this.props.navigation}
+                />
               
-             ))} 
+            ))} 
       </Swiper>
         </Row>
-        <Row style={styles.select} size={10}>
-          <Button style={styles.selectButton} onPress={() => {
-              this.props.navigation.navigate('RoutesContainer')
-            }}>
-            <Text style={styles.selectText}>I like this one!</Text>
-          </Button>
-        </Row>
+        
       </Grid>
     );
+    } else {
+      return (
+        <Grid>
+          <Row style={styles.greetingRow} size={10}>
+            <Text style={styles.greetingText}>Welcome, {this.props.user.name}!</Text>
+          </Row>
+          <Row style={styles.greetingRow} size={5}>
+            <Text style={styles.greetingText2}>Which route do you want to go on?</Text>
+          </Row>
+          <Row size={70}>
+            <Swiper style={styles.wrapper}>
+              {this.props.downloadedAdventures.map((adventure, i) => (
+
+                <CardImage
+                  height={215}
+                  style={styles.slide}
+                  downloadedAdventure={adventure}
+                  adventure={adventure}
+                  key={i}
+                  user={this.props.user}
+                  setAdventure={this.props.setAdventure}
+                  navigation={this.props.navigation}
+                />
+
+              ))}
+            </Swiper>
+          </Row>
+          {/* <Row style={styles.select} size={10}>
+            <Button style={styles.selectButton} onPress={() => {
+              this.props.navigation.navigate('RoutesContainer')
+            }}>
+              <Text style={styles.selectText}>I like this one!</Text>
+            </Button>
+          </Row> */}
+        </Grid>
+      );
+    }
   }
 }
 
 const styles = StyleSheet.create({
   greetingRow: {
     justifyContent: 'space-around',
-    alignItems: 'flex-end'
+    alignItems: 'center'
   },
   greetingText: {
-    fontSize: 25
+    fontSize: 25,
+        color: "#acc878",
+    fontWeight: "bold",
+    textShadowColor: "#000000",
+    textShadowOffset: { width: 1, height: 1 }
   },
   greetingText2: {
-    fontSize: 15
+    fontSize: 15,
+    color: "#000000"
   },
   cardStyle: {
     width: 75
@@ -67,7 +113,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   selectButton: {
-    padding: 10
+    padding: 10,
+    backgroundColor: "#acc878"
+
   },
   selectText: {
     color: '#FFFFFF',

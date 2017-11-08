@@ -12,6 +12,7 @@ const initialState = {
     latitudeDelta: 0,
     longitudeDelta: 0
   },
+  formData: {},
   photos: [
     {
       image:
@@ -29,11 +30,18 @@ const initialState = {
       image: "https://media.timeout.com/images/100729813/image.jpg"
     }
   ],
+  cities: [],
   adventure: {
+    name: "Jake",
+    miles: 5,
+    cities: ["New Orleans", "Metairie"],
     markerLocations: [
       {
-        name: 'Operation Spark',
-        location: { lng: -90.070206, lat: 29.946344 }
+        name: '729 Louque Pl',
+        location: {
+          lat: 29.9891516,
+          lng: -90.10870279999999,
+        }
       },
       {
         name: 'Somewhere Else',
@@ -47,7 +55,7 @@ const initialState = {
   },
   pastAdventures: [
     {
-      cover:
+      photoURL:
         "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
       city: "New Orleans, LA",
       likes: 12,
@@ -56,7 +64,7 @@ const initialState = {
       badges: ["Trail Maker"]
     },
     {
-      cover:
+      photoURL:
         "http://cdn1.theodysseyonline.com/files/2015/11/21/635837430566856627-1324495185_tndkklvnxeoprzcusexl.jpg",
       city: "New Orleans, LA",
       likes: 35,
@@ -65,6 +73,7 @@ const initialState = {
       badge: []
     }
   ],
+  AdvCounter: 0,
   CurrentStopIndex: 0,
   CurrentStop: {
     name: '729 Louque Pl',
@@ -73,15 +82,9 @@ const initialState = {
       lng: -90.10870279999999, }
   },
   badges: [
-    {
-      name: "Trail Maker",
-      location: null,
-    }
-  ],
-  test: [
-    "https://az616578.vo.msecnd.net/files/2016/09/11/6360922286821585541523176234_party%20school.jpg",
-    "http://lukacsbaths.com/wp-content/uploads/2013/10/Szechenyi-Bath-Party-September-7-Sparty-Girl-Wow-Lights.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXV6QAWuF9h_D0jHLsDPibomXqvUT_FSVJiJPrfj7tkjlmR4MfUg"
+    
+      "Let's Get Going!"
+    
   ],
   stockPhotos: [
     {
@@ -127,26 +130,27 @@ const initialState = {
   adventureType: [
     {
       city: "New Orleans, La",
-      cover:
+      photoURL:
       "http://cdn1.theodysseyonline.com/files/2015/11/21/635837430566856627-1324495185_tndkklvnxeoprzcusexl.jpg",
       name: "Plot Your Own Path",
       type: "Choose Your Points of interest and Events."
     },
     {
-      city: "New Orleans, La",
-      cover:
+      city: "New Orleans, LA",
+      photoURL:
       "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
-      name: "Follow my footsteps",
+      name: "Follow My Footsteps",
       type: "Follow a Path Created by a fellow user"
-    },
-    {
-      city: "New Orleans, La",
-      cover:
-      "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
-      name: "LeI think Ill start here.",
-      type: "Choose your starting point and let us handle the rest."
     }
-  ]
+  ],
+  downloadedAdventures: [
+
+  ],
+  token: "",
+  miles: 0,
+  recommendations: [],
+  RouteID: 0,
+  LegDistance: 0
 };
 
 export default function peopleReducer(state = initialState, action) {
@@ -186,9 +190,53 @@ export default function peopleReducer(state = initialState, action) {
       })
     case "ADD_BADGE":
       return Object.assign({}, state, {
-        badges: state.badges.concat({
-          name: action.badge
-        })
+        badges: state.badges.concat(
+          action.badge
+        )
+      });
+    case "SET_Token":
+      return Object.assign({}, state, {
+        token: action.token
+      });
+    case "SET_Adv_Counter":
+      return Object.assign({}, state, {
+        AdvCounter: action.advCounter
+      });
+    case "SET_Badges":
+      return Object.assign({}, state, {
+        badges: action.badges
+      });
+    case "SET_cities":
+      return Object.assign({}, state, {
+        cities: state.cities.concat(action.cities)
+      });
+    case "SET_miles":
+      return Object.assign({}, state, {
+        miles: action.miles
+      });
+    case "SET_Recommendations":
+    return Object.assign({}, state, {
+      recommendations: action.Recommendations
+    });
+    case "SET_Adventures":
+    return Object.assign({}, state, {
+      downloadedAdventures: action.Adventures
+    });
+    case "SET_RouteID":
+      return Object.assign({}, state, {
+        RouteID: action.RouteID
+      });
+    case "SET_User_Photos":
+      return Object.assign({}, state, {
+        photos: action.photos
+      });
+    case "SET_Leg_Distance":
+      return Object.assign({}, state, {
+        LegDistance: action.distance
+      });
+    case "SET_Past_Adventures":
+      return Object.assign({}, state, {
+        pastAdventures: state.pastAdventures.concat(action.pastAdventures)
       });
     default:
       return state;
