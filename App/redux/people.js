@@ -15,19 +15,19 @@ const initialState = {
   formData: {},
   photos: [
     {
-      image:
+      url:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJmiK3Y8sYebZUTq5dfCwrv_pzXQIoGxZMqxZ5mb1dFuZ8CEhr"
     },
     {
-      image:
+      url:
         "http://90sbarcrawl.com/wp-content/uploads/2016/04/pub-crawl-4-16-BWP-93.jpg"
     },
     {
-      image:
+      url:
         "http://d1bhvwz6nty0cr.cloudfront.net/wp-content/uploads/20170117100837/DallasArtsDistrict_EventHero_52.jpg"
     },
     {
-      image: "https://media.timeout.com/images/100729813/image.jpg"
+      url: "https://media.timeout.com/images/100729813/image.jpg"
     }
   ],
   cities: [],
@@ -93,10 +93,6 @@ const initialState = {
     },
     {
       image:
-        "http://lukacsbaths.com/wp-content/uploads/2013/10/Szechenyi-Bath-Party-September-7-Sparty-Girl-Wow-Lights.jpg"
-    },
-    {
-      image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXV6QAWuF9h_D0jHLsDPibomXqvUT_FSVJiJPrfj7tkjlmR4MfUg"
     },
     {
@@ -112,7 +108,7 @@ const initialState = {
         "https://www.redbeansandlife.com/wp-content/uploads/2014/08/Featured-Midsummer-Mardi-Gras-Late-at-Night-New-Orleans-Block-Party.jpg"
     },
     {
-      image:
+      image:     
         "http://www.luxuryawaits.com/wp-content/uploads/2016/05/trombone-jazzfest-20161.jpg"
     },
     {
