@@ -13,20 +13,20 @@ import {
   Text
 } from "native-base";
 import { SocialIcon } from "react-native-elements";
-import {ImagePicker, AuthSession, Google} from "expo";
+import { ImagePicker, AuthSession, Google } from "expo";
 import {
   Platform,
   View,
   Image,
   TouchableOpacity,
   Alert,
-  AsyncStorage,
+  AsyncStorage
 } from "react-native";
 
 import styles from "./../Styles/LoginScreenStyle";
-import { google, facebook} from "react-native-simple-auth";
+import { google, facebook } from "react-native-simple-auth";
 import Api from "../../Services/Api";
-const api = Api.create();
+// const api = Api.create();
 
 var STORAGE_KEY = "jwtToken";
 
@@ -62,7 +62,7 @@ export default class LoginScreen extends Component {
       picture: {
         data: {
           url:
-          "https://www.allworship.com/wp-content/uploads/2015/06/bigstock-Work-In-Progress-Concept-73569091-640x582.jpg"
+            "https://www.allworship.com/wp-content/uploads/2015/06/bigstock-Work-In-Progress-Concept-73569091-640x582.jpg"
         }
       }
     });
@@ -70,12 +70,13 @@ export default class LoginScreen extends Component {
     this.props.navigation.navigate("HomeScreenContainer");
   }
 
-  iosSignIn =  () => {
+  iosSignIn = () => {
     Google.logInAsync({
-      iosClientId: '959826721453-spi396f9irfbijrpt46mbfgcknr2cb7o.apps.googleusercontent.com',
+      iosClientId:
+        "959826721453-spi396f9irfbijrpt46mbfgcknr2cb7o.apps.googleusercontent.com"
     })
       .then(info => {
-        console.log(info)
+        console.log(info);
         let obj = {
           id: info.user.id,
           name: info.user.name,
@@ -90,16 +91,28 @@ export default class LoginScreen extends Component {
         const api = Api.create();
 
         api
-          .postUserData({
-            token: info.idToken,
-            authType: "google"
-          })
+          .findUserData(info.user.id)
           .then(response => {
             this.props.stop(response);
             console.log("INITIAL LOGIN", JSON.stringify(response.data));
-            this._onValueChange(STORAGE_KEY, response.data.data.jwtToken);
-          }).catch(error => {
-            console.log('error initial login', error)
+            this._onValueChange(STORAGE_KEY, response.data[0].jwtToken);
+          })
+          .catch(error => {
+            console.log("error initial login", error);
+            const api2 = Api.create();
+            api2
+              .postUserData({
+                token: info.idToken,
+                authType: "google"
+              })
+              .then(response => {
+                this.props.stop(response);
+                console.log("SECOND LOGIN", JSON.stringify(response.data));
+                this._onValueChange(STORAGE_KEY, response.data.jwtToken);
+              })
+              .catch(error => {
+                console.log("error second login", error);
+              });
           });
 
         if (this.props.user.name) {
@@ -109,19 +122,22 @@ export default class LoginScreen extends Component {
       .catch(error => {
         this.setState({ user: { error: error } });
       });
-  }
+  };
   render() {
     return (
       <View style={styles.body}>
-        <Image source={require('../../../assets/icons/odycity.png')}
+        <Image
+          source={require("../../../assets/icons/odycity.png")}
           style={styles.logo}
-          fadeDuration={1000} />
+          fadeDuration={1000}
+        />
         <View style={styles.center}>
           <Button
             onPress={() => {
               this.iosSignIn();
             }}
-            style={styles.googleButton}>
+            style={styles.googleButton}
+          >
             <Text>Sign in with Google</Text>
           </Button>
         </View>

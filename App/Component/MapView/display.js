@@ -260,7 +260,7 @@ export default class display extends Component {
                 >
               <MapView.Callout
                   onPress={() => {
-                     {/* if (this.isInRadius === true) {  */}
+                    {/* if (this.isInRadius === true) {   */}
                       let badgeName = this.props.waypoint.name
                       this.props.navigation.navigate('ARContainer', {
                         refresh: () => {
@@ -271,7 +271,7 @@ export default class display extends Component {
                           this.render();
                           }  
                       })
-                     {/* }  */}
+                    //}  
                   }
                   }
               >

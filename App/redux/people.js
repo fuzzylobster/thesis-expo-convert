@@ -37,24 +37,25 @@ const initialState = {
     cities: ["New Orleans", "Metairie"],
     markerLocations: [
       {
-        name: '729 Louque Pl',
+        name: "729 Louque Pl",
         location: {
           lat: 29.9891516,
-          lng: -90.10870279999999,
+          lng: -90.10870279999999
         }
       },
       {
-        name: 'Somewhere Else',
+        name: "Somewhere Else",
         location: { lng: -90.070598, lat: 29.946033 }
       },
       {
-        name: 'Last Place',
+        name: "Last Place",
         location: { lng: -90.070043, lat: 29.94523 }
-      },
+      }
     ]
   },
   pastAdventures: [
     {
+      name: "Violet's Voyage",
       photoURL:
         "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
       city: "New Orleans, LA",
@@ -64,10 +65,21 @@ const initialState = {
       badges: ["Trail Maker"]
     },
     {
+      name: "Aaron's Adventure",
       photoURL:
         "http://cdn1.theodysseyonline.com/files/2015/11/21/635837430566856627-1324495185_tndkklvnxeoprzcusexl.jpg",
       city: "New Orleans, LA",
       likes: 35,
+      comments: 3,
+      distance: 4,
+      badge: []
+    },
+    {
+      name: "Jake's Joyride",
+      photoURL:
+        "https://www.google.com/imgres?imgurl=http%3A%2F%2Fblog.evolutionarts.org.uk%2Fwp-content%2Fuploads%2F2015%2F08%2Fbueller-w.jpg&imgrefurl=http%3A%2F%2Fblog.evolutionarts.org.uk%2Fmindfulness-goes-to-the-movies%2F&docid=xnbTTfvD3ZgyYM&tbnid=AZCXt95vx_GOuM%3A&vet=10ahUKEwiInqSRjfTXAhXo5YMKHTkCDccQMwhKKAQwBA..i&w=650&h=366&bih=759&biw=1536&q=ferris%20bueller%20converitble&ved=0ahUKEwiInqSRjfTXAhXo5YMKHTkCDccQMwhKKAQwBA&iact=mrc&uact=8",
+      city: "New Orleans, LA",
+      likes: 2,
       comments: 3,
       distance: 4,
       badge: []
@@ -76,16 +88,13 @@ const initialState = {
   AdvCounter: 0,
   CurrentStopIndex: 0,
   CurrentStop: {
-    name: '729 Louque Pl',
+    name: "729 Louque Pl",
     location: {
       lat: 29.9891516,
-      lng: -90.10870279999999, }
+      lng: -90.10870279999999
+    }
   },
-  badges: [
-    
-      "Let's Get Going!"
-    
-  ],
+  badges: ["Let's Get Going!"],
   stockPhotos: [
     {
       image:
@@ -108,7 +117,7 @@ const initialState = {
         "https://www.redbeansandlife.com/wp-content/uploads/2014/08/Featured-Midsummer-Mardi-Gras-Late-at-Night-New-Orleans-Block-Party.jpg"
     },
     {
-      image:     
+      image:
         "http://www.luxuryawaits.com/wp-content/uploads/2016/05/trombone-jazzfest-20161.jpg"
     },
     {
@@ -127,21 +136,19 @@ const initialState = {
     {
       city: "New Orleans, La",
       photoURL:
-      "http://cdn1.theodysseyonline.com/files/2015/11/21/635837430566856627-1324495185_tndkklvnxeoprzcusexl.jpg",
+        "http://cdn1.theodysseyonline.com/files/2015/11/21/635837430566856627-1324495185_tndkklvnxeoprzcusexl.jpg",
       name: "Plot Your Own Path",
       type: "Choose Your Points of interest and Events."
     },
     {
       city: "New Orleans, LA",
       photoURL:
-      "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
+        "https://www.orlandoinformer.com/wp-content/uploads/2011/08/port-of-entry-islands-of-adventure-725-oi.jpg",
       name: "Follow My Footsteps",
       type: "Follow a Path Created by a fellow user"
     }
   ],
-  downloadedAdventures: [
-
-  ],
+  downloadedAdventures: [],
   token: "",
   miles: 0,
   recommendations: [],
@@ -183,12 +190,10 @@ export default function peopleReducer(state = initialState, action) {
         adventure: {
           markerLocations: state.adventure.markerLocations.concat(action.mark)
         }
-      })
+      });
     case "ADD_BADGE":
       return Object.assign({}, state, {
-        badges: state.badges.concat(
-          action.badge
-        )
+        badges: state.badges.concat(action.badge)
       });
     case "SET_Token":
       return Object.assign({}, state, {
@@ -211,13 +216,13 @@ export default function peopleReducer(state = initialState, action) {
         miles: action.miles
       });
     case "SET_Recommendations":
-    return Object.assign({}, state, {
-      recommendations: action.Recommendations
-    });
+      return Object.assign({}, state, {
+        recommendations: action.Recommendations
+      });
     case "SET_Adventures":
-    return Object.assign({}, state, {
-      downloadedAdventures: action.Adventures
-    });
+      return Object.assign({}, state, {
+        downloadedAdventures: action.Adventures
+      });
     case "SET_RouteID":
       return Object.assign({}, state, {
         RouteID: action.RouteID

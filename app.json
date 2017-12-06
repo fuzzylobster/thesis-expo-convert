@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "convertedapp",
-    "description": "An empty new project",
-    "slug": "convertedapp",
+    "name": "Odycity",
+    "description": "An Augmented Reality Scavenger Hunt",
+    "slug": "Odycity",
     "privacy": "public",
     "sdkVersion": "21.0.0",
     "version": "1.0.0",
