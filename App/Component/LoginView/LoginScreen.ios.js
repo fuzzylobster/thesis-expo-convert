@@ -20,7 +20,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  Image
 } from "react-native";
 
 import styles from "./../Styles/LoginScreenStyle";
@@ -125,6 +126,14 @@ export default class LoginScreen extends Component {
   };
   render() {
     return (
+      <Image
+        style={{
+          flex: 1,
+          alignSelf: 'stretch',
+          width: undefined,
+          height: undefined
+        }}
+        source={require('../../../gradient.png')}>
       <View style={styles.body}>
         <Image
           source={require("../../../assets/icons/odycity.png")}
@@ -151,6 +160,7 @@ export default class LoginScreen extends Component {
             </Button>
         </TouchableOpacity> */}
       </View>
+      </Image>
     );
   }
 }
