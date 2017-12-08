@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ListView, Image } from "react-native";
+import { ListView, Image, Dimensions, Modal } from "react-native";
 import {
   Container,
   Header,
@@ -14,6 +14,7 @@ import {
 } from "native-base";
 import Expo from 'expo'
 const datas = [""];
+const { width, height } = Dimensions.get("window");
 export default class OdysseyList extends Component {
   constructor(props) {
     super(props);
@@ -37,69 +38,40 @@ export default class OdysseyList extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2
     });
     return (
-      <Container>
-        <Header>
-          <Text>
-            Current Destinations
-          </Text>
-        </Header>
-        <Content>
-        
+      <View style={{
+        flex: 1,
+        width: width - 40,
+        height: height/5,
+        alignItems: "center",
+        justifyContent: "center"
+      }}>
+    
 
-          <List
-            
+          <ListView
+            horizontal
             enableEmptySections={true}
             dataSource={this.ds.cloneWithRows(this.props.list.markerLocations)}
             renderRow={data => (
-              <ListItem 
+             
+              <Modal 
                 style={{
-                  alignSelf: 'center'
+                  width: width - 40,
+                  height: height/5
                 }}
               >
+              <View>
                 <Text> {data.name} </Text>
-              </ListItem>
+                </View>
+              </Modal>
+              
             )}
-            renderLeftHiddenRow={data => (
-              <Button full onPress={() => alert(JSON.stringify(data))}>
-                <Icon active name="information-circle" />
-              </Button>
-            )}
-            renderRightHiddenRow={(data, secId, rowId, rowMap) => (
-              <Button
-                full
-                danger
-                onPress={_ => this.deleteRow(secId, rowId, rowMap)}
-              >
-                <Icon active name="trash" />
-              </Button>
-            )}
-            leftOpenValue={75}
-            rightOpenValue={-75}
-          />
-          <Button
-          style={{
-            alignSelf: "stretch"
-          }}
-            onPress={() => {
-              if (!this.props.list.markerLocations.length) {
-                alert("You haven't made any stops yet!")
-              } else {
-
-                this.props.setAdventure();
-                {/* this.props.setWaypoint(); */ }
-                this.props.navigation.navigate("testContainer");
-              }
-            }}
-          >
-            <Text>Start Your Odycity!</Text>
-          </Button>
-            
-            
+            />
+      </View>
+           
           
-        </Content>
-      </Container>
-    );
-  }
+     
+    )
+  };
 }
 
 // alert(JSON.stringify(data))

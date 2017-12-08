@@ -267,6 +267,16 @@ export default class MapViewer extends Component {
     });
   }
 
+  renderIf(condition, content) {
+    if (condition) {
+        return content;
+    } else {
+        return null;
+    }
+}
+
+
+
   render() {
     const { mapRegion, lookingFor } = this.state;
 
@@ -280,13 +290,39 @@ export default class MapViewer extends Component {
               </Button>
             </Right>
           </Header>
+          <View style={{flex:1}}>
 
           <RecommendationsMap
             {...this.state}
             onRegionChange={this.onRegionChange.bind(this)}
             user={this.props.user}
             setMarker={this.props.setMarker}
-          />
+          >
+          
+           
+
+
+          </RecommendationsMap>
+          </View>
+        
+          {this.renderIf(this.props.markers.length > 0, <View style={{
+            width: width - 40,
+            height: height / 5}}><OdysseyList
+            navigation={this.props.navigation}
+            setAdventure={() => {
+              this.props.setAdventure()
+            }}
+            list={this.props.list}
+            enableEmptySections={true}
+            deleteMarker={newMarker => {
+             this.props.deleteMarker()
+            }}
+            testDelete={() => {
+              this.props.testDelete
+            }}
+          /></View>)}
+         
+          
 
           <Footer>
             {<BottomTopics onTopicSelect={this.onTopicSelect.bind(this)} />}

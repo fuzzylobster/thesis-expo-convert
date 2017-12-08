@@ -20,7 +20,7 @@ export default class RouteViewer extends Component {
   tempAdventureNames = [
     "Trailblazer",
     "NOLA Navigator",
-    "Jake's Jog", 
+    "Jake's Jog",
     "Violet's Vacation",
     "Aaron's AdventureTime"
   ]
@@ -85,48 +85,7 @@ export default class RouteViewer extends Component {
       gps: this.props.gps
     };
     return (
-      <Drawer
-        ref={ref => {
-          this.drawer = ref;
-        }}
-        styles={{
-          drawer: {
-            
-            
-            backgroundColor: 'gray'
-            
-          }
-        }}
-        content={
-          
-          
-          <OdysseyList
-            navigation={this.props.navigation}
-            setAdventure={() => {
-              this.props.set_Adventure(this.state.tempAdventure, true, this.props.user.id)
-              }}
-            list={this.state.tempAdventure}
-            enableEmptySections={true}
-            deleteMarker={newMarker => {
-              this.setState({
-                tempAdventure: {
-                  name: this.state.tempAdventure.name,
-                  markerLocations: newMarker,
-                  cities: this.state.tempAdventure.cities,
-                  miles: this.state.tempAdventure.miles,
-                }
-              });
-            }}
-            testDelete={() => {
-              this.setState({ test: "it Worked" });
-            }}
-          />
-          
-          
-          
-        }
-        onClose={() => this.closeDrawer()}
-      >
+     
         <MapViewer
           user={this.props.user}
           setLocation={this.props.set_location}
@@ -139,9 +98,30 @@ export default class RouteViewer extends Component {
           openDrawer={this.openDrawer.bind(this)}
           setMarker={this.setMarker}
           searchBool={this.state.search}
+        navigation={this.props.navigation}
+        setAdventure={() => {
+          this.props.set_Adventure(this.state.tempAdventure, true, this.props.user.id)
+        }}
+        list={this.state.tempAdventure}
+        deleteMarker={newMarker => {
+          this.setState({
+            tempAdventure: {
+              name: this.state.tempAdventure.name,
+              markerLocations: newMarker,
+              cities: this.state.tempAdventure.cities,
+              miles: this.state.tempAdventure.miles,
+            }
+          });
+        }}
+        testDelete={() => {
+          this.setState({ test: "it Worked" });
+        }}
+        >
 
-        />
-      </Drawer>
+          
+        
+        </MapViewer>
+      
     );
   }
 }

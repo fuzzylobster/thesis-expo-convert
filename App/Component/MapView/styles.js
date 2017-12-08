@@ -2,7 +2,9 @@ import { StyleSheet } from "react-native";
 
 const styles = {
   fullscreen: {
-    flex: 1
+    flex: 1,
+    width: null,
+    height: null,
   },
   centered: {
     justifyContent: "center",
