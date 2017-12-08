@@ -9,8 +9,13 @@ import {
   List,
   ActionSheet,
   ListItem,
+  Left,
+  Thumbnail, 
   Text,
-  View
+  Card,
+  CardItem,
+  View,
+  Body
 } from "native-base";
 import Expo from 'expo'
 const datas = [""];
@@ -38,13 +43,7 @@ export default class OdysseyList extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2
     });
     return (
-      <View style={{
-        flex: 1,
-        width: width - 40,
-        height: height/5,
-        alignItems: "center",
-        justifyContent: "center"
-      }}>
+      <View style={{width: width - 20}} >
     
 
           <ListView
@@ -53,16 +52,38 @@ export default class OdysseyList extends Component {
             dataSource={this.ds.cloneWithRows(this.props.list.markerLocations)}
             renderRow={data => (
              
-              <Modal 
-                style={{
-                  width: width - 40,
-                  height: height/5
-                }}
-              >
-              <View>
-                <Text> {data.name} </Text>
-                </View>
-              </Modal>
+              <Container>
+                <Header />
+                <Content>
+                  <Card onLongPress={() => console.log(data)} style={{ flex: 1 }}>
+                    <CardItem>
+                      <Left>
+                        <Thumbnail source={{ uri: '/Users/Aaronmatheney/Graduation/thesis-expo-convert/assets/icons/compassRose.png' }} />
+                        <Body>
+                          <Text>{data.name}</Text>
+                          <Text note>April 15, 2016</Text>
+                        </Body>
+                      </Left>
+                    </CardItem>
+                    <CardItem>
+                      <Body>
+                        <Image source={{ uri: '/Users/Aaronmatheney/Graduation/thesis-expo-convert/assets/icons/compassRose.png' }} style={{ height: 200, width: 200, flex: 1 }} />
+                        <Text>
+                        //Your text here
+                        </Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem>
+                      <Left>
+                        <Button transparent textStyle={{ color: '#87838B' }}>
+                          <Icon name="logo-github" />
+                          <Text>1,926 stars</Text>
+                        </Button>
+                      </Left>
+                    </CardItem>
+                  </Card>
+                </Content>
+              </Container>
               
             )}
             />

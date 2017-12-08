@@ -306,7 +306,9 @@ export default class MapViewer extends Component {
           </View>
         
           {this.renderIf(this.props.markers.length > 0, <View style={{
-            width: width - 40,
+            width: width,
+            justifyContent: 'center',
+            alignContent: 'center',
             height: height / 5}}><OdysseyList
             navigation={this.props.navigation}
             setAdventure={() => {
