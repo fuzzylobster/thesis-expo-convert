@@ -22,7 +22,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFECEC"
+    // backgroundColor: "#FFECEC"
   },
   welcome: {
     fontSize: 20,
@@ -38,7 +38,7 @@ export default StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 35,
-    borderColor: "rgba(0,0,0,0.4)",
+    borderColor: "#306969",
     borderWidth: 5
   },
   profilePic: {
