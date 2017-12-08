@@ -3,9 +3,8 @@ import { StyleSheet, Dimensions } from "react-native";
 
 export default StyleSheet.create({
   body: {
-    flex: 1,
+    flex: 2,
     justifyContent: "center",
-    backgroundColor: "#FFECEC",
     alignItems: "center"
   },
   container: {
