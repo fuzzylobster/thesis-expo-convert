@@ -10,7 +10,7 @@ import {
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SocialIcon } from "react-native-elements";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import {ImagePicker} from "expo";
+import { ImagePicker } from "expo";
 import {
   Container,
   Header,
@@ -25,12 +25,12 @@ import {
 
 import styles from "./../Styles/MapViewStyle";
 import Polyline from "@mapbox/polyline";
-import Expo, { MapView, Constants, Location, Permissions } from 'expo';
-import { NavigationActions } from 'react-navigation'
+import Expo, { MapView, Constants, Location, Permissions } from "expo";
+import { NavigationActions } from "react-navigation";
 import { stringify as queryString } from "query-string";
-import Api from '../../Services/Api';
-import Animation from './Animation';
-
+import Api from "../../Services/Api";
+import PhotoApi from "../../Services/PhotosApi";
+import Animation from "./Animation";
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_HEIGHT = height;
@@ -43,40 +43,43 @@ export default class display extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      coords: [],
-
+      coords: []
     };
   }
   newImage() {
-    console.log(this.props.RouteID)
-    ImagePicker.launchCameraAsync().then( response => {
+    console.log(this.props.RouteID);
+    ImagePicker.launchCameraAsync().then(response => {
+      console.log("image response", response);
       const image = {
         uri: response.uri,
         type: "image/jpeg",
-        name: "myImage" + "-" + Date.now() + ".jpg",
-        
+        name: "myImage" + "-" + Date.now() + ".jpg"
       };
       const imgBody = new FormData();
       imgBody.append("image", image);
       const api = Api.create();
-      api
+
+      const photoApi = PhotoApi.create();
+      photoApi
         .postUserPhoto(imgBody)
         .then(res => {
-          // console.log(res);
-          api.postPhotoToRoute(res.data.imageUrl, this.props.RouteID)
+          // console.log(res.data);
+          api.postPhotoToRoute(res.data.imageUrl, this.props.RouteID);
           const source = { uri: res.imageUrl, isStatic: true };
           const photoData = {
             url: res.data.imageUrl,
             userId: this.props.userID,
             routeId: this.props.RouteID,
             ispublic: true
-          }
-          api.postPhotoToDB(photoData).then(success => {
-            console.log(success)
-          }).catch(error => {
-            console.log(error);
-          }
-          )
+          };
+          api
+            .postPhotoToDB(photoData)
+            .then(success => {
+              console.log(success);
+            })
+            .catch(error => {
+              console.log(error);
+            });
         })
         .catch(error => {
           console.error(error);
@@ -105,10 +108,9 @@ export default class display extends Component {
     }
   }
 
-  
-
   watchLocation2() {
-    this.watchID = Location.watchPositionAsync({ enableHighAccuracy: true, distanceInterval: 5 },
+    this.watchID = Location.watchPositionAsync(
+      { enableHighAccuracy: true, distanceInterval: 5 },
       position => {
         var lat = parseFloat(position.coords.latitude);
         var long = parseFloat(position.coords.longitude);
@@ -124,30 +126,29 @@ export default class display extends Component {
           latitude: lastRegion.latitude,
           longitude: lastRegion.longitude
         });
-        this.onRegionChange(lastRegion, position.coords.accuracy)
+        this.onRegionChange(lastRegion, position.coords.accuracy);
 
         this.getDirections(
           `"${position.coords.latitude}, ${position.coords.longitude}"`,
-          `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location.lng}"`
+          `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location
+            .lng}"`
         );
-
-        
-        
-      });
+      }
+    );
   }
   onRegionChange(region, gpsAccuracy) {
     const CLIENT_ID = "NWSH4V1UKUFIVAP2QY15LOMDVIZ5HMY1WAYL31VFECAHNZTN";
     const CLIENT_SECRET = "U2TGSQJK4YYQT1NI25HAKQWW3QMSMEO42AVS0LQ2CU0TPMOH";
     const FOURSQUARE_ENDPOINT = "https://api.foursquare.com/v2/venues/";
     const API_DEBOUNCE_TIME = 2000;
-    const VENUE_ID = this.props.waypoint.location.venueID
+    const VENUE_ID = this.props.waypoint.location.venueID;
     let query = queryString({
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
       v: 20170305,
       ll: `${region.latitude}, ${region.longitude}`,
-      llAcc: this.state.gpsAccuracy,
-    })
+      llAcc: this.state.gpsAccuracy
+    });
     fetch(`${FOURSQUARE_ENDPOINT}${VENUE_ID}?${query}`)
       .then(fetch.throwErrors)
       .then(res => res.json())
@@ -156,19 +157,17 @@ export default class display extends Component {
         this.potentialGeofence = json.response.venue.location.distance;
         if (this.props.LegDistance < this.potentialGeofence) {
           this.props.leg_Distance(this.potentialGeofence);
-          
         }
-        console.log('geofence', this.potentialGeofence)
+        // console.log("geofence", this.potentialGeofence);
         if (this.potentialGeofence <= 50) {
-
-        this.isInRadius = true;
-        this.isInRadiusText = "In range! Click me to go to the AR Event!"
+          this.isInRadius = true;
+          this.isInRadiusText = "In range! Click me to go to the AR Event!";
         } else {
           this.isInRadius = false;
-          this.isInRadiusText = `Keep looking! ${this.potentialGeofence} meters away...`
+          this.isInRadiusText = `Keep looking! ${this
+            .potentialGeofence} meters away...`;
         }
-
-      })
+      });
 
     this.setState({
       mapRegion: region,
@@ -184,13 +183,10 @@ export default class display extends Component {
     // find your origin and destination point coordinates and pass it to our method.
     // I am using Bursa,TR -> Istanbul,TR for this example
     this.watchLocation2();
-    
-
   }
 
   componentWillUnmount() {
     this.watchID = null;
-    
   }
 
   async getDirections(startLoc, destinationLoc) {
@@ -223,15 +219,11 @@ export default class display extends Component {
     };
 
     if (this.state.coords.length) {
-
       return (
         <Container>
-          <Header></Header>
+          <Header />
           <Content contentContainerStyle={styles.container}>
-
-        
-          <MapView style={styles.map} initialRegion={this.state.mapRegion}>
-
+            <MapView style={styles.map} initialRegion={this.state.mapRegion}>
               <MapView.Circle
                 center={this.state.gps}
                 radius={this.state.gpsAccuracy * 1.5}
@@ -247,79 +239,71 @@ export default class display extends Component {
                 strokeColor="rgba(66, 180, 230, 1)"
                 fillColor="rgba(66, 180, 230, 1)"
               />
-            
-              
 
-              <MapView.Marker coordinate={{
-                latitude: this.props.waypoint.location.lat,
-                longitude: this.props.waypoint.location.lng
-                
-                }} 
-                image={require('../../../assets/icons/184.png')}
-                style={{width: 100, height: 100}}
-                >
-              <MapView.Callout
-                  onPress={() => {
-                    {/* if (this.isInRadius === true) {   */}
-                      let badgeName = this.props.waypoint.name
-                      this.props.navigation.navigate('ARContainer', {
-                        refresh: () => {
-                          this.setState({ coords: [], firstRender: true })
-                          this.getDirections(
-                            `"${this.props.loc.latitude}, ${this.props.loc.longitude}"`,
-                            `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location.lng}"`);
-                          this.render();
-                          }  
-                      })
-                    //}  
-                  }
-                  }
+              <MapView.Marker
+                coordinate={{
+                  latitude: this.props.waypoint.location.lat,
+                  longitude: this.props.waypoint.location.lng
+                }}
+                image={require("../../../assets/icons/184.png")}
+                style={{ width: 100, height: 100 }}
               >
-              <Text>{this.isInRadiusText}</Text>
-              
-              
+                <MapView.Callout
+                  onPress={() => {
+                    {
+                      /* if (this.isInRadius === true) {   */
+                    }
+                    let badgeName = this.props.waypoint.name;
+                    this.props.navigation.navigate("ARContainer", {
+                      refresh: () => {
+                        this.setState({ coords: [], firstRender: true });
+                        this.getDirections(
+                          `"${this.props.loc.latitude}, ${this.props.loc
+                            .longitude}"`,
+                          `"${this.props.waypoint.location.lat}, ${this.props
+                            .waypoint.location.lng}"`
+                        );
+                        this.render();
+                      }
+                    });
+                    //}
+                  }}
+                >
+                  <Text>{this.isInRadiusText}</Text>
 
-                <Button
-                title={' AR Event'}
-                style={{ alignSelf: "center" }}
-                
-              /> 
-              
-              </MapView.Callout>
-            </MapView.Marker>
-            <MapView.Polyline
-              coordinates={this.state.coords}
-              strokeWidth={2}
-              strokeColor="red"
-            />
-
-          </MapView>
-        
+                  <Button title={" AR Event"} style={{ alignSelf: "center" }} />
+                </MapView.Callout>
+              </MapView.Marker>
+              <MapView.Polyline
+                coordinates={this.state.coords}
+                strokeWidth={2}
+                strokeColor="red"
+              />
+            </MapView>
           </Content>
-        <Footer>
-          <FooterTab>
-            <Button onPress={this.newImage.bind(this)}>
-              <Icon name="camera" />
-            </Button>
-          </FooterTab>
-        </Footer>
+          <Footer>
+            <FooterTab>
+              <Button onPress={this.newImage.bind(this)}>
+                <Icon name="camera" />
+              </Button>
+            </FooterTab>
+          </Footer>
         </Container>
-          );
+      );
     } else {
       this.getDirections(
         `"${this.props.loc.latitude}, ${this.props.loc.longitude}"`,
-        `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location.lng}"`
+        `"${this.props.waypoint.location.lat}, ${this.props.waypoint.location
+          .lng}"`
       );
       return (
         <View style={{ flex: 1 }}>
-          
           <Animation />
         </View>
       );
     }
   }
 }
-
 
 // <MapViewer
 // changeLocation={this.props.set_location}

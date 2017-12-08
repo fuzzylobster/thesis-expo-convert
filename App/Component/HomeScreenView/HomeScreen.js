@@ -12,7 +12,7 @@ import FooterMenu from "../Footer";
 import ProfilePastAdv from "../ProfileView/ProfilePastAdv";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import styles from "./../Styles/HomeScreenStyle";
-
+import { LinearGradient } from "expo";
 import HomeScreenHeader from "./HomeScreenHeader";
 import HomeScreenBody from "./HomeScreenBody";
 
@@ -92,6 +92,7 @@ export default class HomeScreen extends Component {
           />
         </Row>
         <Row size={88}>
+          {/*  */}
           <HomeScreenBody
             user={this.props.user}
             adventures={this.props.adventures}

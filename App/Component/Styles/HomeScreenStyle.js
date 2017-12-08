@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   body: {
-    backgroundColor: "#FFECEC"
+    // backgroundColor: "#FFECEC"
   },
   headBody: {
     backgroundColor: "#9E2626"
