@@ -179,7 +179,7 @@ const styles2 = StyleSheet.create({
     height: 30,
     margin: 5,
     marginTop: 0,
-    backgroundColor: "#6c1a1a"
+    backgroundColor: "#306969"
   },
 
   buttonText: {

@@ -80,6 +80,14 @@ export default class HomeScreen extends Component {
   }
   render() {
     return (
+      <Image
+        style={{
+          flex: 1,
+          alignSelf: 'stretch',
+          width: undefined,
+          height: undefined
+        }}
+        source={require('../../../gradient.png')}>
       <Grid style={styles.body}>
         <Row size={12}>
           <HomeScreenHeader
@@ -103,6 +111,7 @@ export default class HomeScreen extends Component {
           />
         </Row>
       </Grid>
+      </Image>
     );
   }
 }
