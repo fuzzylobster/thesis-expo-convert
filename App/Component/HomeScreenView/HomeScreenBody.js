@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Image, Dimensions } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Dimensions
+} from "react-native";
 import { Button, Card, DeckSwiper, Body, CardItem } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Swiper from "react-native-swiper";
@@ -17,48 +24,51 @@ export default class HomeScreen extends Component {
   }
   render() {
     if (!this.props.downloadedAdventures.length) {
-
-    return (
-      <Grid>
-        <Row style={styles.greetingRow} size={10}>
-          <Text style={styles.greetingText}>Welcome, {this.props.user.name}!</Text>
-        </Row>
-        <Row style={styles.greetingRow} size={5}>
-          <Text style={styles.greetingText2}>What adventure should we take today?</Text>
-        </Row>
-        <Row size={70}>
-          <Swiper style={styles.wrapper}>
-            {this.props.adventures.map((adventure, i) => ( 
-              
-                <CardImage 
-                height={215} 
-                style={styles.slide} 
-                adventure={adventure} 
-                key={i} 
-                user={this.props.user}
-                downloadAdventures={this.props.Download_Adventures}
-                navigation={this.props.navigation}
+      return (
+        <Grid>
+          <Row style={styles.greetingRow} size={10}>
+            <Text style={styles.greetingText}>
+              Welcome, {this.props.user.name}!
+            </Text>
+          </Row>
+          <Row style={styles.greetingRow} size={5}>
+            <Text style={styles.greetingText2}>
+              What adventure should we take today?
+            </Text>
+          </Row>
+          <Row size={70}>
+            <Swiper style={styles.wrapper}>
+              {this.props.adventures.map((adventure, i) => (
+                <CardImage
+                  height={215}
+                  style={styles.slide}
+                  adventure={adventure}
+                  key={i}
+                  user={this.props.user}
+                  downloadAdventures={this.props.Download_Adventures}
+                  navigation={this.props.navigation}
                 />
-              
-            ))} 
-      </Swiper>
-        </Row>
-        
-      </Grid>
-    );
+              ))}
+            </Swiper>
+          </Row>
+        </Grid>
+      );
     } else {
       return (
         <Grid>
           <Row style={styles.greetingRow} size={10}>
-            <Text style={styles.greetingText}>Welcome, {this.props.user.name}!</Text>
+            <Text style={styles.greetingText}>
+              Welcome, {this.props.user.name}!
+            </Text>
           </Row>
           <Row style={styles.greetingRow} size={5}>
-            <Text style={styles.greetingText2}>Which route do you want to go on?</Text>
+            <Text style={styles.greetingText2}>
+              Which route do you want to go on?
+            </Text>
           </Row>
           <Row size={70}>
             <Swiper style={styles.wrapper}>
               {this.props.downloadedAdventures.map((adventure, i) => (
-
                 <CardImage
                   height={215}
                   style={styles.slide}
@@ -69,7 +79,6 @@ export default class HomeScreen extends Component {
                   setAdventure={this.props.setAdventure}
                   navigation={this.props.navigation}
                 />
-
               ))}
             </Swiper>
           </Row>
@@ -88,12 +97,12 @@ export default class HomeScreen extends Component {
 
 const styles = StyleSheet.create({
   greetingRow: {
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    justifyContent: "space-around",
+    alignItems: "center"
   },
   greetingText: {
     fontSize: 25,
-        color: "#acc878",
+    color: "#acc878",
     fontWeight: "bold",
     textShadowColor: "#000000",
     textShadowOffset: { width: 1, height: 1 }
@@ -107,21 +116,20 @@ const styles = StyleSheet.create({
   },
   cardHeader: {
     fontSize: 25,
-    fontWeight: 'bold'
+    fontWeight: "bold"
   },
   select: {
-    justifyContent: 'space-around'
+    justifyContent: "space-around"
   },
   selectButton: {
     padding: 10,
     backgroundColor: "#acc878"
-
   },
   selectText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold'
+    color: "#FFFFFF",
+    fontWeight: "bold"
   },
-    wrapper: {
+  wrapper: {
     // flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
@@ -136,5 +144,5 @@ const styles = StyleSheet.create({
     width: swiperWidth - gutter,
     alignSelf: "center",
     justifyContent: "center"
-  },
+  }
 });

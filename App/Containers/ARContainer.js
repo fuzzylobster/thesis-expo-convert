@@ -3,7 +3,6 @@ import { Add_Badge, Current_Stop, Current_adventure, Set_Adv_Counter, Set_miles,
 import { Platform } from 'react-native';
 import ARScreen from "../Component/ARView/ARScreen";
 import Api from "../Services/Api"
-// import ARScreenAndroid from '../Component/ARView/ARScreenAndroid'
 
 const mapStateToProps = state => {
   return { 

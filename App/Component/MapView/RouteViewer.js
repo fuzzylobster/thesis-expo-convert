@@ -43,17 +43,30 @@ export default class RouteViewer extends Component {
     this.drawer._root.open();
   };
   setMarker = (newMarker, city, miles) => {
-    // console.log(JSON.stringify(newMarker));
-    this.setState({
-      tempAdventure: {
-        name: this.state.tempAdventure.name,
-        markerLocations: this.state.tempAdventure.markerLocations.concat(
-          newMarker
-        ),
-        cities: this.state.tempAdventure.cities.concat(city),
-        miles: this.state.tempAdventure.miles + miles
-      }
-    });
+    if (this.state.tempAdventure.cities.indexOf(city) > -1) {
+      this.setState({
+        tempAdventure: {
+          name: this.state.tempAdventure.name,
+          markerLocations: this.state.tempAdventure.markerLocations.concat(
+            newMarker
+          ),
+          cities: this.state.tempAdventure.cities,
+          miles: this.state.tempAdventure.miles + miles
+        }
+      });
+    } else {
+
+      this.setState({
+        tempAdventure: {
+          name: this.state.tempAdventure.name,
+          markerLocations: this.state.tempAdventure.markerLocations.concat(
+            newMarker
+          ),
+          cities: this.state.tempAdventure.cities.concat(city),
+          miles: this.state.tempAdventure.miles + miles
+        }
+      });
+    }
   };
   componentDidMount() {
     console.log(this.state.tempAdventure.markerLocations);

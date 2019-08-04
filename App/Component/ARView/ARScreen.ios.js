@@ -25,17 +25,17 @@ export default class ARScreen extends React.Component {
   }
 
   routeIsComplete = false;
-    yPosition = 0;
-    xPosition = 0;
+
   componentWillMount() {
     // const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: 'granted',
-  yPosition: 0,
-xPosition: 0});
-    // this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+    this.setState({ 
+      hasCameraPermission: 'granted',
+      yPosition: 0,
+      xPosition: 0
+    });
+
     const panGrant = (_, gestureState) => {
       // this.material.color.setHex(0x00ff00);
-    
     };
     const panRelease = (_, gestureState) => {
       // this.material.color.setHex(0xff0000);
@@ -45,14 +45,11 @@ xPosition: 0});
         this.routeIsComplete = true;
         this.props.addBadge(this.props.currentStop.name);
         this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name), this.props.user.id);
-        this.props.updateMiles((this.props.LegDistance / 1609).toFixed(2), this.props.miles, this.props.user.id);
-      
+        this.props.updateMiles(Math.round((this.props.LegDistance / 1609) * 1e2) / 1e2, this.props.miles, this.props.user.id);
       } else {
-      this.props.addBadge(this.props.currentStop.name);
-      this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name), this.props.user.id);
-        this.props.updateMiles((this.props.LegDistance / 1609).toFixed(2), this.props.miles, this.props.user.id);
-      
-
+        this.props.addBadge(this.props.currentStop.name);
+        this.props.updateBadges(this.props.currentBadges.concat(this.props.currentStop.name), this.props.user.id);
+        this.props.updateMiles(Math.round((this.props.LegDistance / 1609) * 1e2) / 1e2, this.props.miles, this.props.user.id);
         this.props.updateStop(this.props.currentRoute, this.props.currentStopIndex + 1);
       } 
       
@@ -64,47 +61,33 @@ xPosition: 0});
           index: 0,
           actions: [
             NavigationActions.navigate({routeName: 'HomeScreenContainer'})
-
           ]
         }));
         
       } else {
         this.props.navigation.state.params.refresh();
-      alert(`You've added the ${this.props.currentRoute[this.props.currentStopIndex].name} badge!
-        ${this.props.currentRoute.length - (this.props.currentStopIndex + 1) } more left for this adventure!
-      `)
+        alert(`You've added the ${this.props.currentRoute[this.props.currentStopIndex].name} badge!
+          ${this.props.currentRoute.length - (this.props.currentStopIndex + 1) } more left for this adventure!
+        `)
         this.props.navigation.goBack();
       }
     } else {
       this.setState({
         hasCameraPermission: true,
         yPosition: 0,
-        xPosition: 0
+        xPosition: this.randomXPosition
       })
     }
     };
     const panMove = (_, gestureState) => {
-      if (this.state.yPosition >= -0.95 && this.state.yPosition <= -0.7) {
+      
         this.setState({
           hasCameraPermission: true,
-          yPosition: -gestureState.dy / 200,
-          xPosition: gestureState.dx / 250,
-          containerMaterial:  this.material
+          yPosition: -gestureState.dy / 250, 
+          xPosition: this.state.xPosition,
+          containerMaterial: this.state.containerMaterial 
         })
-      } else {
-      this.setState({
-        hasCameraPermission: true,
-        yPosition: -gestureState.dy / 200, 
-      xPosition: gestureState.dx / 250,
-      containerMaterial: this.state.containerMaterial 
-      
-    })
-
-      }
-      
-      
-      // this.xPosition = gestureState.x0;
-    }
+    };
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderGrant: panGrant,
@@ -132,32 +115,22 @@ xPosition: 0});
       return <Text>No access to camera</Text>;
     } else {
       return (
-
-        
-       
-              <View
+        <View
           style={{
             flex: 1, backgroundColor: 'transparent',
             flexDirection: 'column',
           }}
-              >
-            {/* <Text>{this.state.yPosition}</Text> */}
-
-              <Expo.GLView
-                {...this.panResponder.panHandlers}
-                ref={(ref) => this._glView = ref}
-                style={{
-                  flex: 1, backgroundColor: 'transparent',
-                  flexDirection: 'row',
-                }}
-                onContextCreate={this._onGLContextCreate}
-              /> 
-            
-              </View>
-              
-            
-     
-
+        >
+          <Expo.GLView
+            {...this.panResponder.panHandlers}
+            ref={(ref) => this._glView = ref}
+            style={{
+              flex: 1, backgroundColor: 'transparent',
+              flexDirection: 'row',
+            }}
+            onContextCreate={this._onGLContextCreate}
+          /> 
+        </View>
       );
     }
   }
@@ -177,79 +150,55 @@ xPosition: 0});
     const renderer = ExpoTHREE.createRenderer({ gl });
     renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight);
     scene.background = ExpoTHREE.createARBackgroundTexture(arSession, renderer);
-    //simple box
-    // var x = camera.position.x, y = camera.position.y;
 
-    // var heartShape = new THREE.Shape();
-
-    // heartShape.moveTo(x + 5, y + 5);
-    // heartShape.bezierCurveTo(x + 5, y + 5, x + 4, y, x, y);
-    // heartShape.bezierCurveTo(x - 6, y, x - 6, y + 7, x - 6, y + 7);
-    // heartShape.bezierCurveTo(x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19);
-    // heartShape.bezierCurveTo(x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7);
-    // heartShape.bezierCurveTo(x + 16, y + 7, x + 16, y, x + 10, y);
-    // heartShape.bezierCurveTo(x + 7, y, x + 5, y + 5, x + 5, y + 5);
-
-    // var geometry = new THREE.ShapeGeometry(heartShape);
     const geometry = new THREE.BoxBufferGeometry(0.07, 0.07, 0.07);
-  // const geometry = new THREE.TorusGeometry(2, 1, 4, 6);
-  // const geometry = new THREE.RingGeometry()
-  
-    // const material = new THREE.MeshBasicMaterial({
-      // color: 0xffff00
-    // })
+
     this.material = new THREE.MeshBasicMaterial({
       map: await ExpoTHREE.createTextureAsync({
         asset: Expo.Asset.fromModule(require('../../../assets/icons/2017-Scavenger-Hunt-from-Clickin-Moms.jpg')),
       })
     });
-    // const edges = new THREE.EdgesGeometry(geometry);
-    // const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({
-    //   color: 0x000000
-    // }))
+    const edges = new THREE.EdgesGeometry(geometry);
+    const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({
+      color: 0x000000
+    }))
     const cube = new THREE.Mesh(geometry, this.material);
-    // line.position.z = -1;
+
+    let forwardBack = [-5, 5];
+    let leftRight = [-3, 3];
+    let randomZPosition = Math.random() * forwardBack[Math.floor(Math.random() * 2)]
+    if (randomZPosition < 0) {
+      this.reverseX = true;
+    } else {
+      this.reverseX = false;
+    }
+    cube.position.z = randomZPosition;
+    line.position.z = randomZPosition;
+    this.randomXPosition = Math.random() * leftRight[Math.floor(Math.random() * 2)]
+    cube.position.x = this.randomXPosition;
+    line.position.x = this.randomXPosition;
     
     
-    // this.yPosition = line.position.y;
-    let forwardBack = [-5, 5]
-    let randomPosition = Math.random() * forwardBack[Math.floor(Math.random() * 2)]
-    cube.position.z = randomPosition;
-    // cube.position.y = -1;
     
-    
-    
-    // scene.add(line);
     scene.add(cube);
+    scene.add(line);
     
     const container = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2);
-    // var loader = new THREE.CubeTextureLoader();
-    // loader.setPath('../../../assets/icons/');
-
-    // var textureCube = loader.load([
-    //   'crate.gif', 'crate.gif',
-    //   'crate.gif', 'crate.gif',
-    //   'crate.gif', 'crate.gif'
-    // ]);
-    // const containerMaterial = new THREE.MeshBasicMaterial({
-    //   envMap: textureCube
-    // })
+ 
     const containerMaterial = new THREE.MeshBasicMaterial({
-      
       map: await ExpoTHREE.createTextureAsync({
         asset: Expo.Asset.fromModule(require('../../../assets/icons/184.png'))
-        
-      
       })
     })
     this.setState({
       hasCameraPermission: true,
       yPosition: 0,
-      xPosition: 0,
+      xPosition: this.randomXPosition,
       containerMaterial: containerMaterial
     })
     const containerMesh = new THREE.Mesh(container, containerMaterial);
-    containerMesh.position.z = randomPosition;
+    containerMesh.position.z = randomZPosition;
+    containerMesh.position.x = this.randomXPosition;
     containerMesh.position.y = cube.position.y -0.75;
     scene.add(containerMesh);
 
@@ -263,40 +212,20 @@ xPosition: 0});
     var hex = 0xffff00;
 
     var arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex, 0.1, 0.05);
-    arrowHelper.position.z = randomPosition;
+    arrowHelper.position.z = randomZPosition;
+    arrowHelper.position.x = this.randomXPosition;
     arrowHelper.position.y = cube.position.y - 0.25
     scene.add(arrowHelper);
-    // CUSTOM SHAPE, in progress.
-    // var geometry = new THREE.Geometry();
-    // geometry.vertices.push(
-    //   new THREE.Vector3(0, -10, -1),
-    //   new THREE.Vector3(-10, 10, 0),
-    //   new THREE.Vector3(-5, 8, 0.5),
-    //   new THREE.Vector3(0, 10, 1),
-    //   new THREE.Vector3(5, 8, 0.5),
-    //   new THREE.Vector3(10, 10, 0),
-    //   new THREE.Vector3(0, -10, -1)      
-    // )
-    // geometry.faces.push(
-    //   new THREE.Face3(0, 1, 2);
-    // )
-    // var material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-    // var mesh = new THREE.Mesh(geometry, material);
-    // mesh.position.z = -3;
-    // scene.add(mesh);
 
     const animate = () => {
       requestAnimationFrame(animate);
       cube.rotation.y += 0.02;
-      // cube.rotation.y += 0.02;
-      // line.rotation.y += 0.02;
-      // line.rotation.y += 0.02
-      cube.position.y = this.state.yPosition
-      cube.position.x = this.state.xPosition
-      // containerMesh.position.z = - 0.8
-      // containerMesh.position.y = 
-      
-      // line.position.y = this.yPosition
+      line.rotation.y += 0.02;
+
+      cube.position.y = this.state.yPosition;
+      line.position.y = this.state.yPosition;
+      cube.position.x = this.state.xPosition;
+      line.position.x = this.state.xPosition;
       
       renderer.render(scene, camera);
       gl.endFrameEXP();

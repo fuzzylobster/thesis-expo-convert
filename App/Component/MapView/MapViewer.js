@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import {
   Platform,
@@ -20,10 +19,10 @@ import {
   Button,
   Label,
   Footer,
-  Spinner,
+  Spinner
 } from "native-base";
 import styles from "./styles";
-import {MapView, Location} from "expo";
+import { MapView, Location } from "expo";
 import RecommendationsMap from "./RecommendationsMap";
 import { BottomTopics } from "./Topics";
 import { stringify as queryString } from "query-string";
@@ -171,7 +170,8 @@ export default class MapViewer extends Component {
   watchID = null;
 
   componentWillMount() {
-    this.watchID = Location.watchPositionAsync({ enableHighAccuracy: true, distanceInterval: 1 },
+    this.watchID = Location.watchPositionAsync(
+      { enableHighAccuracy: true, distanceInterval: 1 },
       position => {
         let region = {
           latitude: position.coords.latitude,
@@ -180,16 +180,17 @@ export default class MapViewer extends Component {
           longitudeDelta: 0.00421 * 1.5
         };
 
-      let loc = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: 0.00922 * 1.5,
-        longitudeDelta: 0.00421 * 1.5
-      };
-      this.setState({ gps: loc });
+        let loc = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: 0.00922 * 1.5,
+          longitudeDelta: 0.00421 * 1.5
+        };
+        this.setState({ gps: loc });
 
-      this.onRegionChange(region, position.coords.accuracy);
-    });
+        this.onRegionChange(region, position.coords.accuracy);
+      }
+    );
   }
 
   componentWillUnmount() {
@@ -210,30 +211,29 @@ export default class MapViewer extends Component {
   fetchVenues(region, lookingFor) {
     if (!this.shouldFetchVenues(lookingFor)) return;
     if (lookingFor) {
+      const query = this.venuesQuery(region, lookingFor);
 
-    const query = this.venuesQuery(region, lookingFor);
-
-    fetch(`${FOURSQUARE_ENDPOINT}?${query}`)
-      .then(fetch.throwErrors)
-      .then(res => res.json())
-      .then(json => {
-        if (json.response.groups) {
-          // console.log(json.response.groups);
-          this.setState({
-            recommendations: json.response.groups.reduce(
-              (all, g) => all.concat(g ? g.items : []),
-              []
-            ),
-            headerLocation: json.response.headerLocation,
-            last4sqCall: new Date()
-          });
-          this.props.set_recommendations(this.state.recommendations);
-          // console.log(this.state.recommendations);
-        }
-        // console.log(this.props.mapRecommendations);
-        this.setState({ lookingFor: null });
-      })
-      .catch(err => console.log(err));
+      fetch(`${FOURSQUARE_ENDPOINT}?${query}`)
+        .then(fetch.throwErrors)
+        .then(res => res.json())
+        .then(json => {
+          if (json.response.groups) {
+            // console.log(json.response.groups);
+            this.setState({
+              recommendations: json.response.groups.reduce(
+                (all, g) => all.concat(g ? g.items : []),
+                []
+              ),
+              headerLocation: json.response.headerLocation,
+              last4sqCall: new Date()
+            });
+            this.props.set_recommendations(this.state.recommendations);
+            // console.log(this.state.recommendations);
+          }
+          // console.log(this.props.mapRecommendations);
+          this.setState({ lookingFor: null });
+        })
+        .catch(err => console.log(err));
     }
   }
 
